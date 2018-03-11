@@ -41,18 +41,27 @@
 ** Set up map
    Save / load maps
 
-   - [ ] Load tiles from file.
+   - [X] Load tiles from file.
 
-   - [ ] Make first map: wall, floor, door, computer terminal, counter
+   - [X] Make first map: wall, floor, door, computer terminal, counter
 
-   - [ ] Fog of war in rooms I can not see into
+   - [ ] "Fog of war" in rooms I can not see into / rooms I'm not in
 
-   - [ ] Read in map from a simple file
+   - [X] Read in map from a simple file
 
-   - [ ] Use third party map making tool. Like [[%0Ahttp://www.mapeditor.org/][Tiled]], if so read [[http://gamedev.tutsplus.com/tutorials/level-design/introduction-to-tiled-map-editor/][introduction]]
-     and how to implement it [[http://gamedev.tutsplus.com/tutorials/implementation/parsing-tiled-tmx-format-maps-in-your-own-game-engine/][here]]. Another editor is ogmo covered [[http://gamedevelopment.tutsplus.com/tutorials/getting-to-know-ogmo-editor-an-advanced-and-robust-level-editor--gamedev-3843][here]].
+   - [-] Use third party map making tool. Like [[%0Ahttp://www.mapeditor.org/][Tiled]], if so read [[http://gamedev.tutsplus.com/tutorials/level-design/introduction-to-tiled-map-editor/][introduction]]
+     and how to implement it [[http://gamedev.tutsplus.com/tutorials/implementation/parsing-tiled-tmx-format-maps-in-your-own-game-engine/][here]]. (Another editor is ogmo covered [[http://gamedevelopment.tutsplus.com/tutorials/getting-to-know-ogmo-editor-an-advanced-and-robust-level-editor--gamedev-3843][here]].) For
+     Tiled, save maps in json format (since Pioneer uses json), and implement:
 
-   - [ ] Find some tile set. http://opengameart.org/
+     - [X] Hook in jsoncpp.
+
+     - [X] Read in maps. Useful: [[https://github.com/bjorn/tiled/wiki/JSON-Map-Format][Tiled: json-format]] and [[%20https://en.wikibooks.org/wiki/JsonCpp][jsoncpp]]-documentation.
+
+     - [X] Support multiple layers
+
+     - [ ] Support multiple tile sets
+
+   - [X] Find some tile set. http://opengameart.org/
 
    - [ ] Collision detection
 
