@@ -85,6 +85,9 @@ void Texture::render(SDL_Renderer *renderer, int x, int y, SDL_Rect* clip, doubl
   if(clip != nullptr){
     renderQuad.w = clip->w;
     renderQuad.h = clip->h;
+
+    renderQuad.w = 32;
+    renderQuad.h = 32;
   }
 
   //Render to screen
