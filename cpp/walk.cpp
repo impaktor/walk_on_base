@@ -52,7 +52,7 @@ int main()
 
 
   Texture dot_texture;
-  dot_texture.loadFromFile("image.png", renderer);
+  dot_texture.loadFromFile("data/image.png", renderer);
   Dot dot(&dot_texture, LEVEL_HEIGHT, LEVEL_WIDTH);
 
   // MAIN LOOP
