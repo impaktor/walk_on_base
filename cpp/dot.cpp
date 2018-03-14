@@ -45,8 +45,8 @@ Dot::Dot(Texture *texture, int level_height, int level_width){
   mTileSize=32;
 
   // The dimensions of _one_ dot. (The sprite sheet has 2x2 dots)
-  int clipW = 100; // xxx
-  int clipH = 100;
+  int clipW = 32;
+  int clipH = 32;
 
   //Setup the clips for our image
   for(int i = 0; i < 4; ++i){
