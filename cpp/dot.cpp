@@ -64,6 +64,9 @@ Dot::Dot(Texture *texture, int level_height, int level_width){
   //Collision box dimensions
   mCollisionBox.w = mTileSize;
   mCollisionBox.h = mTileSize;
+
+  // Don't print debug each tick, just each event
+  mEvent = true;
 }
 
 void Dot::handleEvent(SDL_Event &event){
@@ -82,6 +85,7 @@ void Dot::handleEvent(SDL_Event &event){
     case SDLK_3: mUseClip = 2; break;
     case SDLK_4: mUseClip = 3; break;
     }
+    mEvent = true;
   }
 }
 
@@ -115,8 +119,13 @@ void Dot::move(){
   else
     mOldPosY = mPosY;
 
-  std::cout << "dot-x " << mPosX << ", dot-y " <<  mPosY << "; "
-            << mLevelWidth << "," << mLevelHeight << std::endl;
+  // Only print keypress if it was updated:
+  if (mEvent){
+    std::cout << "\r" << "dot-x " << mPosX << ", dot-y " <<  mPosY << "; "
+              << mLevelWidth << "," << mLevelHeight << std::flush;
+    // don't need to print this event more (until next event)
+    mEvent = false;
+  }
 }
 
 

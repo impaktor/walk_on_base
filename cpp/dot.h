@@ -49,6 +49,9 @@ private:
 
   int mOldPosX, mOldPosY;
 
+  // for debug printouts
+  bool mEvent;
+
   // number of pixels for a tile (assume square, W = H)
   int mTileSize;
 

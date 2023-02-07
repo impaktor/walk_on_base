@@ -9,7 +9,7 @@
 #include "tiledmap.h"
 
 
-//The dimensino of the window, (bottom right coordinates)
+//The dimension of the window, (bottom right coordinates)
 int WINDOW_WIDTH = 640;
 int WINDOW_HEIGHT = 480;
 
