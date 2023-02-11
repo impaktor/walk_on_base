@@ -1,14 +1,6 @@
 * Description
   This is my playground for implementing a 2D RPG like SDL based game which
-  serves two main purposes:
-
-  1. Having read through SICP and PCL, In now want to learn Common Lisp, in
-     hope to make this my main language, to replace C++ and Python.
-     UPDATE: not going very well. This is dormant for now, and doing it all in
-     C++, for now.
-
-  2. The game itself aims to be a proof of concept for "waling on base" in
-     the game [[https://github.com/pioneerspacesim/pioneer][Pioneer Space Simulator]].
+  aims to be a proof of concept for "[[https://forum.pioneerspacesim.net/viewtopic.php?f=3&t=454][waling on base]]" in the game [[https://github.com/pioneerspacesim/pioneer][Pioneer Space Simulator]].
 
 * My path to glory
   My road map.
@@ -17,90 +9,64 @@
    Have implemented either in c++ or/and common lisp:
 
  - [X] Make git repository
-
  - [X] Install cl-sdl2, Common Lisp bindings into SDL
-
  - [X] Draw a SDL window
-
  - [X] handle keyboard event, ESC and Q
-
  - [X] handle closing window with clicking "x" (I think this is done, not sure)
-
  - [X] wait/sleep lopp with fixed FPS to cap CPU usage
-
  - [X] load an image/sprite
-
  - [X] Have a dot that I can move around with arrow keys
-
- - [ ] Map can scroll when dot approaches edge of screen
-
- - [ ] LISP: Stand alone binary file, with a REPL in it?
-
- - [ ] LISP: Recompile while event loop is running, [[https://www.youtube.com/watch?v%3D6pMyhrDcMzw][how to]].
+ - [X] Map can scroll when dot approaches edge of screen
 
 ** Set up map
-   Save / load maps
-
    - [X] Load tiles from file.
-
    - [X] Make first map: wall, floor, door, computer terminal, counter
-
    - [ ] "Fog of war" in rooms I can not see into / rooms I'm not in
-
    - [X] Read in map from a simple file
-
-   - [-] Use third party map making tool. Like [[%0Ahttp://www.mapeditor.org/][Tiled]], if so read [[http://gamedev.tutsplus.com/tutorials/level-design/introduction-to-tiled-map-editor/][introduction]]
+   - [-] Use third party map making tool. Like [[https://www.mapeditor.org/][Tiled]], if so read [[http://gamedev.tutsplus.com/tutorials/level-design/introduction-to-tiled-map-editor/][introduction]]
      and how to implement it [[http://gamedev.tutsplus.com/tutorials/implementation/parsing-tiled-tmx-format-maps-in-your-own-game-engine/][here]]. (Another editor is ogmo covered [[http://gamedevelopment.tutsplus.com/tutorials/getting-to-know-ogmo-editor-an-advanced-and-robust-level-editor--gamedev-3843][here]].) For
      Tiled, save maps in json format (since Pioneer uses json), and implement:
-
      - [X] Hook in jsoncpp.
-
-     - [X] Read in maps. Useful: [[https://github.com/bjorn/tiled/wiki/JSON-Map-Format][Tiled: json-format]] and [[%20https://en.wikibooks.org/wiki/JsonCpp][jsoncpp]]-documentation.
-
+     - [X] Read in maps. Useful: [[https://github.com/bjorn/tiled/wiki/JSON-Map-Format][Tiled: json-format]] and [[https://en.wikibooks.org/wiki/JsonCpp][jsoncpp]]-documentation.
      - [X] Support multiple layers
-
      - [ ] Support multiple tile sets
-
+     - [ ] Support arbitrary tile sizes?
    - [X] Find some tile set. http://opengameart.org/
-
-   - [ ] Collision detection
-
+   - [X] support collision checks with walls (us "collision" layer)
    - [ ] Trigger tiles: doors switch to indoor map, computer terminal, stairs
 
-** Initial goals
+** NPCs
+   - [ ] separate out to character class,
+   - [ ] random placement on map, with destination to move to.
+   - [ ] [[https://gamedevelopment.tutsplus.com/series/how-to-adapt-a-pathfinding-to-a-2d-grid-based-platformer--cms-882][A* pathfinding]]
+   - [ ] Can search an NPCs name/ID tag, and mark/change color of character sprite
+   - [ ] support collision check between characters [[http://lazyfoo.net/tutorials/SDL/27_collision_detection/index.php][tutorial]]
 
-   - [ ] Crate a character class
+   - [ ] mouse integration
+     - [ ] click sets destination for player
+     - [ ] click NPC, to give action (e.g. show name & stats, for now)
+** Imgui
+   Support [[https://github.com/ocornut/imgui][imgui]]?
 
-   - [ ] Implement a pathfinding algorithm,
-         [[https://gamedevelopment.tutsplus.com/series/how-to-adapt-a-pathfinding-to-a-2d-grid-based-platformer--cms-882][to read]]
-
-   - [ ] Mouse-clicking sets destination for player
-
-   - [ ] NPCs move about
-
-   - [ ] NPCs selectable, show names, stats
-
-   - [ ] Engage NPCs in conversations
+   - [ ] For debug print outs?
+   - [ ] bouncing into computer terminal - BBS
+   - [ ] bouncing into NPC:
+     - [ ] fight / deliver package / ask
+     - [ ] bartender: ask advice
+     - [ ] fixers: illegal mission
 
 ** Follow up goals
+   Longer term goals, rough outline.
 
    - [ ] Create maps of different stations
-
      - [ ] Station has a bar, with chairs, tables, bar-counter, bartender
-
      - [ ] Station has a police "station"/terminal
-
      - [ ] Station has a BBS terminal
-
      - [ ] Station has a commodity terminal
-
    - [ ] Player has a wrist "[[http://fallout.wikia.com/wiki/Pip-Boy][Pip-boy]]" computer?
-
    - [ ] Player/NPC has an inventory? Mechanics for dropping/picking up items?
-
    - [ ] Manually prompt to set player stats when starting new game. Strength,
      dexterity, speed, rifle skill, blade skill, gun skill, throw skill, looks
-
 ** Potentially: Now ready for initial inclusion into pioneer
    At this point, the game could be included into Pioneer:
 
