@@ -5,6 +5,8 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 
+// Load an image to a SDL_Texture, e.g. a set of sprites or tileset or single image
+
 //Texture wrapper class
 class Texture{
 public:
@@ -29,12 +31,13 @@ public:
   //Set alpha modulation
   void setAlpha(Uint8 alpha);
 
-  //Renders texture at given point
+  //Renders texture at given point, and possibly a subset of the texture
+  //(e.g. for rendering a single tile from a tile set)
   void render(SDL_Renderer *renderer, int x, int y, SDL_Rect* clip = nullptr,
               double angle = 0.0, SDL_Point* center = nullptr,
               SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-  //Gets image dimensions
+  //Gets image full dimensions
   int getWidth() const {
     return mWidth;
   }
@@ -47,7 +50,7 @@ private:
   //The actual hardware texture
   SDL_Texture* mTexture;
 
-  //Image dimensions
+  //Full image dimensions
   int mWidth;
   int mHeight;
 };

@@ -6,12 +6,17 @@
 #include <string>
 #include "tiledmap.h"
 
+
 TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
+  std::cout << "tiled map name\t" << name << std::endl;
   std::ifstream ifile(name, std::ifstream::in);
   ifile >> mRoot;
 
+  // Map dimensions in units of tiles
   mWidth = mRoot["width"].asInt();
   mHeight = mRoot["height"].asInt();
+
+  std::cout << "tiled map dim: " << mWidth << "x" << mHeight << " tiles" << std::endl;
 
   // dimension of one tile in pixels
   mTileWidth = mRoot["tilewidth"].asInt();
@@ -33,7 +38,10 @@ TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
   }
 
 
-  // Populate mClips vector, where each element is a unique "gid" id from tile.
+  // Populate mClips vector, where each element is a unique "gid" id
+  // from tile. (gid is the index of the tile on the map, starts
+  // upper left corner of map, there are mWidth x mHeight gids (as
+  // many as tiles on map).
   mClips.clear();
   for(size_t i = 0; i < mRoot["tilesets"].size(); ++i){
     Json::Value tileset = mRoot["tilesets"][(int)i];
@@ -75,24 +83,16 @@ TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
       }
     }
   }
-  //-- // debug print out
-  //-- for(size_t i = 0; i < mClips.size(); ++i)
-  //--   std::cout << i << "| " << mClips[i].rect.x << " "
-  //--             << mClips[i].rect.y << " " << mClips[i].rect.h << " "
-  //--             << mClips[i].rect.w << " " << mClips[i].tileSetName << std::endl;
-  //-- std::cout << "************* mClips done" << std::endl;
-
 }
 
 
 void TiledMap::render(SDL_Renderer *renderer, SDL_Rect &camera){
 
   // HORRIBLE! Assumes one single tile set
+  // No, assumes tiles in all tilesets have same size, e.g. 32x32
   Json::Value tileset = mRoot["tilesets"][0];
   int tileH = tileset["tileheight"].asInt();
   int tileW = tileset["tilewidth"].asInt();
-
-  //-- std::cout << tileH << " - " << tileW << std::endl;
 
   for(size_t i = 0; i < mRoot["layers"].size(); ++i){
     int indexi = i;
@@ -109,15 +109,12 @@ void TiledMap::render(SDL_Renderer *renderer, SDL_Rect &camera){
     for(size_t j = 0; j < layer["data"].size(); ++j){
       int indexj = j;
       int tileId = layer["data"][indexj].asInt();   // "gid coordinate"
-      //-- std::cout << "(" << x << "," << y << ") " << tileId << std::endl;
 
       if(tileId > 0)
         mTileTextures[mClips[tileId - 1].tileSetName].render(renderer, x - camera.x, y - camera.y, &mClips[tileId - 1].rect);
 
       x += tileW;
-      //std::cout << mRoot["layers"][i]["data"][j] << " ";
       if((j + 1) % mWidth == 0){
-        //std::cout << std::endl;
         y += tileH;
         x = 0;
       }
