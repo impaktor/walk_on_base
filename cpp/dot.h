@@ -5,7 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <cassert>
 #include "texture.h"
-#include "tile.h"
+#include "tiledmap.h"
 
 // A class of movable dot, with separating axis collision detection, from
 // http://lazyfoo.net/tutorials/SDL/27_collision_detection/index.php
@@ -20,7 +20,7 @@ public:
 
   //Moves the dot and checks collision against tiles
   //void move(Tile *tiles[]);
-  void move();
+  void move(TiledMap &map);
 
   //Shows the dot on the screen, (rendering can be relative the camera)
   void render(SDL_Renderer *renderer, SDL_Rect &camera);

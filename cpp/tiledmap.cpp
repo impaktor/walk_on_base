@@ -97,7 +97,12 @@ void TiledMap::render(SDL_Renderer *renderer, SDL_Rect &camera){
   for(size_t i = 0; i < mRoot["layers"].size(); ++i){
     int indexi = i;
     Json::Value layer = mRoot["layers"][indexi];
-    //-- std::cout << "Name of tile layer [" << indexi << "]: " << layer["name"] << std::endl;
+    std::string layername = layer["name"].asString();
+
+    // Don't render collision layer (typically we use a red tile for this)
+    if(layername == mCollisionLayerName){
+      continue;
+    }
 
     int x = 0;
     int y = 0;
@@ -118,4 +123,33 @@ void TiledMap::render(SDL_Renderer *renderer, SDL_Rect &camera){
       }
     }
   }
+}
+
+
+bool TiledMap::isCollision(int x, int y){
+
+  // If we go outside the level, count as "collision"
+  if (x < 0 || x > mTileWidth * mWidth)
+    return true;
+  if (y < 0 || y > mTileHeight * mHeight)
+    return true;
+
+  // loop through all layers to find collision layer
+  for(size_t i = 0; i < mRoot["layers"].size(); ++i){
+    Json::Value layer = mRoot["layers"][int(i)];
+    std::string layername = layer["name"].asString();
+
+    if(layername != mCollisionLayerName){
+      continue;
+    }
+
+    // convert 2D coordinates to 1D (assuming we can only move in
+    // steps of full tiles)
+    int j = float(x)/mTileWidth + float(y)/mTileHeight * mWidth;
+    int tileId = layer["data"][j].asInt();   // "gid coordinate"
+
+    // if there is a tile on this coordinate, it's a collision
+    return tileId > 0;
+  }
+  return false;
 }

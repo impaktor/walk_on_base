@@ -25,6 +25,7 @@ public:
 
   void render(SDL_Renderer *rend, SDL_Rect &camera);
 
+  bool isCollision(int x, int y);
 
 private:
   // Dimensions of entire level/map in tiles
@@ -54,6 +55,9 @@ private:
   // Auto-increments for each placed object
   int mNextObjectId;
 
+  // Layer with this name, will not be rendered, but the tile
+  // coorinates used for collision detection
+  std::string mCollisionLayerName = "collisions";
 };
 
 #endif

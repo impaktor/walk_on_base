@@ -91,15 +91,16 @@ void Dot::handleEvent(SDL_Event &event){
 
 
 //void Dot::move(Tile *tiles[]){
-void Dot::move(){
+void Dot::move(TiledMap &map){
   mCollisionBox.x = mPosX;
 
   int width = mTileSize;
   int height = mTileSize;
 
+  bool isCollision = map.isCollision(mPosX, mPosY);
+
   //If the dot went too far to the left or right
-  if((mPosX < 0) || (mPosX + width > mLevelWidth) ||
-     touchesWall(mCollisionBox /*, tiles*/)){
+  if((mPosX < 0) || (mPosX + width > mLevelWidth) || isCollision){
     //Move back
     mPosX = mOldPosX;
     mCollisionBox.x = mPosX;
@@ -110,8 +111,7 @@ void Dot::move(){
   mCollisionBox.y = mPosY;
 
   //If the dot went too far up or down
-  if((mPosY < 0) || (mPosY + height > mLevelHeight) ||
-     touchesWall(mCollisionBox /*, tiles*/)){
+  if((mPosY < 0) || (mPosY + height > mLevelHeight) || isCollision){
     //Move back
     mPosY = mOldPosY;
     mCollisionBox.y = mPosY;

@@ -106,7 +106,8 @@ int main()
       }
       dot.handleEvent(event);
     }
-    dot.move();
+
+    dot.move(map);
     dot.setCamera(camera);
 
     //RENDER THE SCENE
