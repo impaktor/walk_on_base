@@ -23,7 +23,7 @@ public:
     return mHeight;
   };
 
-  void render(SDL_Renderer *rend);
+  void render(SDL_Renderer *rend, SDL_Rect &camera);
 
 
 private:
@@ -45,9 +45,6 @@ private:
   // Dimensions of one tile in pixels
   int mTileWidth;
   int mTileHeight;
-
-  // My (single) tile texture
-  //Texture *mTileTexture;
 
   std::map<std::string, Texture> mTileTextures;
 

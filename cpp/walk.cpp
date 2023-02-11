@@ -113,7 +113,7 @@ int main()
     //Recommended: First clear the renderer, (using the set render color)
     SDL_RenderClear(renderer);
 
-    map.render(renderer);
+    map.render(renderer, camera);
     dot.render(renderer, camera);
 
     //player.render(renderer);

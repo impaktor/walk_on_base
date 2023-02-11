@@ -85,7 +85,7 @@ TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
 }
 
 
-void TiledMap::render(SDL_Renderer *renderer){
+void TiledMap::render(SDL_Renderer *renderer, SDL_Rect &camera){
 
   // HORRIBLE! Assumes one single tile set
   Json::Value tileset = mRoot["tilesets"][0];
@@ -107,7 +107,7 @@ void TiledMap::render(SDL_Renderer *renderer){
       //-- std::cout << "(" << x << "," << y << ") " << tileId << std::endl;
 
       if(tileId > 0)
-        mTileTextures[mClips[tileId - 1].tileSetName].render(renderer, x, y, &mClips[tileId - 1].rect);
+        mTileTextures[mClips[tileId - 1].tileSetName].render(renderer, x - camera.x, y - camera.y, &mClips[tileId - 1].rect);
 
       x += tileW;
       //std::cout << mRoot["layers"][i]["data"][j] << " ";
