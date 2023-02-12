@@ -1,25 +1,25 @@
 # Table of Contents
 
-1.  [Description](#orgcba0474)
-2.  [My path to glory](#orged0072a)
-    1.  [Getting started](#orgdb3a965)
-    2.  [Set up map](#orgcd1da4f)
-    3.  [NPCs](#org73675b9)
-    4.  [Imgui](#org7d413d1)
-    5.  [Follow up goals](#orgbb8f773)
-    6.  [Potentially: Now ready for initial inclusion into pioneer](#org2319710)
-    7.  [Show ships in hangar?](#orgf340152)
-    8.  [Combat system](#orgb704fde)
-    9.  [Above and beyond](#org399c6cb)
-3.  [Reading](#org176fa43)
-    1.  [To read:](#orgf9be52e)
-    2.  [Have read](#org7f64f47)
-4.  [Resources](#org3c6325c)
-    1.  [General Common lisp game programming](#org169750b)
-    2.  [Common Lisp + OpenGL](#org3a728ca)
+1.  [Description](#org5473cdc)
+2.  [My path to glory](#org2f3f083)
+    1.  [Getting started](#org19ab5a6)
+    2.  [Set up map](#org4887c38)
+    3.  [NPCs](#org1eeda40)
+    4.  [Imgui](#org2dd6c39)
+    5.  [Follow up goals](#org2842703)
+    6.  [Potentially: Now ready for initial inclusion into pioneer](#org44924e4)
+    7.  [Show ships in hangar?](#org3ec7df7)
+    8.  [Combat system](#org6f051e3)
+    9.  [Above and beyond](#orgda6206a)
+3.  [Reading](#org3c62d1e)
+    1.  [To read:](#orgab00ea5)
+    2.  [Have read](#org97785af)
+4.  [Resources](#org1a392ac)
+    1.  [General Common lisp game programming](#orge4cc521)
+    2.  [Common Lisp + OpenGL](#orgc1d28e8)
 
 
-<a id="orgcba0474"></a>
+<a id="org5473cdc"></a>
 
 # Description
 
@@ -27,21 +27,18 @@ This is my playground for implementing a 2D RPG like SDL based game which
 aims to be a proof of concept for "[waling on base](https://forum.pioneerspacesim.net/viewtopic.php?f=3&t=454)" in the game [Pioneer Space Simulator](https://github.com/pioneerspacesim/pioneer).
 
 
-<a id="orged0072a"></a>
+<a id="org2f3f083"></a>
 
 # My path to glory
 
 My road map.
 
 
-<a id="orgdb3a965"></a>
+<a id="org19ab5a6"></a>
 
 ## Getting started
 
-Have implemented either in c++ or/and common lisp:
-
 -   [X] Make git repository
--   [X] Install cl-sdl2, Common Lisp bindings into SDL
 -   [X] Draw a SDL window
 -   [X] handle keyboard event, ESC and Q
 -   [X] handle closing window with clicking "x" (I think this is done, not sure)
@@ -51,7 +48,7 @@ Have implemented either in c++ or/and common lisp:
 -   [X] Map can scroll when dot approaches edge of screen
 
 
-<a id="orgcd1da4f"></a>
+<a id="org4887c38"></a>
 
 ## Set up map
 
@@ -65,14 +62,14 @@ Have implemented either in c++ or/and common lisp:
     -   [X] Hook in jsoncpp.
     -   [X] Read in maps. Useful: [Tiled: json-format](https://github.com/bjorn/tiled/wiki/JSON-Map-Format) and [jsoncpp](https://en.wikibooks.org/wiki/JsonCpp)-documentation.
     -   [X] Support multiple layers
-    -   [ ] Support multiple tile sets
+    -   [X] Support multiple tile sets
     -   [ ] Support arbitrary tile sizes?
 -   [X] Find some tile set. <http://opengameart.org/>
 -   [X] support collision checks with walls (us "collision" layer)
 -   [ ] Trigger tiles: doors switch to indoor map, computer terminal, stairs
 
 
-<a id="org73675b9"></a>
+<a id="org1eeda40"></a>
 
 ## NPCs
 
@@ -87,7 +84,7 @@ Have implemented either in c++ or/and common lisp:
     -   [ ] click NPC, to give action (e.g. show name & stats, for now)
 
 
-<a id="org7d413d1"></a>
+<a id="org2dd6c39"></a>
 
 ## Imgui
 
@@ -101,7 +98,7 @@ Support [imgui](https://github.com/ocornut/imgui)?
     -   [ ] fixers: illegal mission
 
 
-<a id="orgbb8f773"></a>
+<a id="org2842703"></a>
 
 ## Follow up goals
 
@@ -118,7 +115,7 @@ Longer term goals, rough outline.
     dexterity, speed, rifle skill, blade skill, gun skill, throw skill, looks
 
 
-<a id="org2319710"></a>
+<a id="org44924e4"></a>
 
 ## Potentially: Now ready for initial inclusion into pioneer
 
@@ -152,7 +149,7 @@ At this point, the game could be included into Pioneer:
     closed door to the ship hangar. Ships are not shown (that is for later).
 
 
-<a id="orgf340152"></a>
+<a id="org3ec7df7"></a>
 
 ## Show ships in hangar?
 
@@ -175,7 +172,7 @@ hand-to-hand combat, to then loot their cargo/crew.
     cargo loading bay?).
 
 
-<a id="orgb704fde"></a>
+<a id="org6f051e3"></a>
 
 ## Combat system
 
@@ -199,7 +196,7 @@ hand-to-hand combat, to then loot their cargo/crew.
 -   [ ] Select body part to aim for
 
 
-<a id="org399c6cb"></a>
+<a id="orgda6206a"></a>
 
 ## Above and beyond
 
@@ -235,12 +232,12 @@ blender-fu is weak?).
     to reset it)? This is more like an adventure game elements thingy.
 
 
-<a id="org176fa43"></a>
+<a id="org3c62d1e"></a>
 
 # Reading
 
 
-<a id="orgf9be52e"></a>
+<a id="orgab00ea5"></a>
 
 ## To read:
 
@@ -251,7 +248,7 @@ for e.g. asteroid bases.
 <https://ijdykeman.github.io/ml/2017/10/12/wang-tile-procedural-generation.html>
 
 
-<a id="org7f64f47"></a>
+<a id="org97785af"></a>
 
 ## Have read
 
@@ -281,7 +278,7 @@ pathfinding algo](http://gamedev.tutsplus.com/tutorials/implementation/speed-up-
 <http://gamedevelopment.tutsplus.com/tutorials/creating-isometric-worlds-a-primer-for-game-developers-continued--gamedev-9215>
 
 
-<a id="org3c6325c"></a>
+<a id="org1a392ac"></a>
 
 # Resources
 
@@ -289,14 +286,14 @@ Large collection of links
 <http://www-cs-students.stanford.edu/~amitp/gameprog.html>
 
 
-<a id="org169750b"></a>
+<a id="orge4cc521"></a>
 
 ## General Common lisp game programming
 
 <https://github.com/lispgames/lispgames.github.io/wiki>
 
 
-<a id="org3a728ca"></a>
+<a id="orgc1d28e8"></a>
 
 ## Common Lisp + OpenGL
 

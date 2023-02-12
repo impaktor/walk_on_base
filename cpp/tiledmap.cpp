@@ -51,7 +51,7 @@ TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
     int tileH = tileset["tileheight"].asInt();
     int tileW = tileset["tilewidth"].asInt();
 
-    int col = tileset["columns"].asInt();
+    int columns = tileset["columns"].asInt();
 
     // this feels a bit strange, to both index the map on filename,
     // and send it as input arg...
@@ -67,17 +67,15 @@ TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
 
     int x = 0;
     int y = 0;
-
-    //-- std::cout << "firstGid\t" << firstGid << std::endl;
-
+    int col = 0;
     for(int j = firstGid -1; j < tileCount + firstGid -1; ++j){
-      //-- std::cout << j << "; x=" << x << ", y=" << y << std::endl;
 
       //SDL_Rect tmp = {x, y, tileH, tileW};
       mClips[j].rect = {x, y, tileW, tileH};
       x += tileW;
-
-      if((j + 1) % col == 0){
+      col++;
+      if(col == columns){
+        col = 0;
         x = 0;
         y += tileH;
       }
@@ -107,8 +105,7 @@ void TiledMap::render(SDL_Renderer *renderer, SDL_Rect &camera){
     int x = 0;
     int y = 0;
     for(size_t j = 0; j < layer["data"].size(); ++j){
-      int indexj = j;
-      int tileId = layer["data"][indexj].asInt();   // "gid coordinate"
+      int tileId = layer["data"][int(j)].asInt();   // "gid coordinate"
 
       if(tileId > 0)
         mTileTextures[mClips[tileId - 1].tileSetName].render(renderer, x - camera.x, y - camera.y, &mClips[tileId - 1].rect);

@@ -6,10 +6,8 @@
   My road map.
 
 ** Getting started
-   Have implemented either in c++ or/and common lisp:
 
  - [X] Make git repository
- - [X] Install cl-sdl2, Common Lisp bindings into SDL
  - [X] Draw a SDL window
  - [X] handle keyboard event, ESC and Q
  - [X] handle closing window with clicking "x" (I think this is done, not sure)
@@ -29,7 +27,7 @@
      - [X] Hook in jsoncpp.
      - [X] Read in maps. Useful: [[https://github.com/bjorn/tiled/wiki/JSON-Map-Format][Tiled: json-format]] and [[https://en.wikibooks.org/wiki/JsonCpp][jsoncpp]]-documentation.
      - [X] Support multiple layers
-     - [ ] Support multiple tile sets
+     - [X] Support multiple tile sets
      - [ ] Support arbitrary tile sizes?
    - [X] Find some tile set. http://opengameart.org/
    - [X] support collision checks with walls (us "collision" layer)
