@@ -1,5 +1,6 @@
 #include <iostream>
 #include "dot.h"
+#include "character.h"
 #include "common.h"
 
 
@@ -28,46 +29,19 @@ bool touchesWall(const SDL_Rect &box /*, Tile* tiles[]*/){
 }
 
 
-
-Dot::Dot(Texture *texture, int level_height, int level_width){
-
-  mTexture = texture;
-  assert(mTexture != nullptr);
-
-  mLevelHeight = level_height;
-  mLevelWidth = level_width;
+Dot::Dot(Texture *texture, int level_height, int level_width):
+  Character(texture, level_height, level_width){
 
   //Initialize the offsets
-  mPosX = 0;
-  mPosY = 0;
-
-  // XXX tmp:
-  mTileSize=32;
-
-  // The dimensions of _one_ dot. (The sprite sheet has 2x2 dots)
-  int clipW = 32;
-  int clipH = 32;
-
-  //Setup the clips for our image
-  for(int i = 0; i < 4; ++i){
-    mClips[i].x = i / 2 * clipW;
-    mClips[i].y = i % 2 * clipH;
-    mClips[i].w = clipW;
-    mClips[i].h = clipH;
-  }
+  mPosX = 32;
+  mPosY = 32;
 
   mUseClip = 0;
-
-  mOldPosX = 0;
-  mOldPosY = 0;
-
-  //Collision box dimensions
-  mCollisionBox.w = mTileSize;
-  mCollisionBox.h = mTileSize;
 
   // Don't print debug each tick, just each event
   mEvent = true;
 }
+
 
 void Dot::handleEvent(SDL_Event &event){
   int step = mTileSize;
@@ -92,32 +66,8 @@ void Dot::handleEvent(SDL_Event &event){
 
 //void Dot::move(Tile *tiles[]){
 void Dot::move(TiledMap &map){
-  mCollisionBox.x = mPosX;
 
-  int width = mTileSize;
-  int height = mTileSize;
-
-  bool isCollision = map.isCollision(mPosX, mPosY);
-
-  //If the dot went too far to the left or right
-  if((mPosX < 0) || (mPosX + width > mLevelWidth) || isCollision){
-    //Move back
-    mPosX = mOldPosX;
-    mCollisionBox.x = mPosX;
-  }
-  else
-    mOldPosX = mPosX;
-
-  mCollisionBox.y = mPosY;
-
-  //If the dot went too far up or down
-  if((mPosY < 0) || (mPosY + height > mLevelHeight) || isCollision){
-    //Move back
-    mPosY = mOldPosY;
-    mCollisionBox.y = mPosY;
-  }
-  else
-    mOldPosY = mPosY;
+  Character::move(map);
 
   // Only print keypress if it was updated:
   if (mEvent){
@@ -146,10 +96,4 @@ void Dot::setCamera(SDL_Rect &camera){
     camera.x = mLevelWidth - camera.w;
   if(camera.y > mLevelHeight - camera.h)
     camera.y = mLevelHeight - camera.h;
-}
-
-
-void Dot::render(SDL_Renderer *renderer, SDL_Rect &camera){
-  //Show the dot, relative the camera
-  mTexture->render(renderer, mPosX - camera.x, mPosY - camera.y, &mClips[mUseClip]);
 }

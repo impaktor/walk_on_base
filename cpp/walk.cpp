@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include "texture.h"
 #include "dot.h"
+#include "npc.h"
 #include "common.h"
 #include "tiledmap.h"
 
@@ -54,6 +55,10 @@ int main()
   Texture dot_texture;
   dot_texture.loadFromFile("data/image.png", renderer);
   Dot dot(&dot_texture, LEVEL_HEIGHT, LEVEL_WIDTH);
+
+  Texture npc_texture;
+  npc_texture.loadFromFile("data/image.png", renderer);
+  NPC npc(&npc_texture, LEVEL_HEIGHT, LEVEL_WIDTH);
 
   // MAIN LOOP
   //The camera area
@@ -110,12 +115,15 @@ int main()
     dot.move(map);
     dot.setCamera(camera);
 
+    npc.move(map);
+
     //RENDER THE SCENE
     //Recommended: First clear the renderer, (using the set render color)
     SDL_RenderClear(renderer);
 
     map.render(renderer, camera);
     dot.render(renderer, camera);
+    npc.render(renderer, camera);
 
     //player.render(renderer);
 
