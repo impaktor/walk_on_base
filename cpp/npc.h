@@ -13,7 +13,7 @@ public:
   NPC(Sprite *sprite, int level_height, int level_width);
 
 private:
-  int mTargetPosX, mTargetPosY;
+  SDL_Point mTargetPos;
   int speed;
 
   int random_int(int max);

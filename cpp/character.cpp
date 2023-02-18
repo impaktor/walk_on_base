@@ -8,14 +8,13 @@ Character::Character(Sprite *sprite, int level_height, int level_width):
 {
 
   //Initialize the offsets
-  mPosX = 32;
-  mPosY = 64;
+  mPos.x = 32;
+  mPos.y = 64;
 
   // XXX tmp:
   mTileSize=32;
 
-  mOldPosX = mPosX;
-  mOldPosY = mPosY;
+  mOldPos = mPos;
 
   //Collision box dimensions
   mCollisionBox.w = mTileSize;
@@ -25,36 +24,36 @@ Character::Character(Sprite *sprite, int level_height, int level_width):
 
 //void Character::move(Tile *tiles[]){
 void Character::move(TiledMap &map){
-  mCollisionBox.x = mPosX;
+  mCollisionBox.x = mPos.x;
 
   int width = mTileSize;
   int height = mTileSize;
 
-  bool isCollision = map.isCollision(mPosX, mPosY);
+  bool isCollision = map.isCollision(mPos);
 
   //If the dot went too far to the left or right
-  if((mPosX < 0) || (mPosX + width > mLevelWidth) || isCollision){
+  if((mPos.x < 0) || (mPos.x + width > mLevelWidth) || isCollision){
     //Move back
-    mPosX = mOldPosX;
-    mCollisionBox.x = mPosX;
+    mPos.x = mOldPos.x;
+    mCollisionBox.x = mPos.x;
   }
   else
-    mOldPosX = mPosX;
+    mOldPos.x = mPos.x;
 
-  mCollisionBox.y = mPosY;
+  mCollisionBox.y = mPos.y;
 
   //If the dot went too far up or down
-  if((mPosY < 0) || (mPosY + height > mLevelHeight) || isCollision){
+  if((mPos.y < 0) || (mPos.y + height > mLevelHeight) || isCollision){
     //Move back
-    mPosY = mOldPosY;
-    mCollisionBox.y = mPosY;
+    mPos.y = mOldPos.y;
+    mCollisionBox.y = mPos.y;
   }
   else
-    mOldPosY = mPosY;
+    mOldPos.y = mPos.y;
 }
 
 
 void Character::render(SDL_Renderer *renderer, SDL_Rect &camera){
   //Show the object, relative the camera
-  sprite.render(renderer, mPosX - camera.x, mPosY - camera.y);
+  sprite.render(renderer, mPos.x - camera.x, mPos.y - camera.y);
 }

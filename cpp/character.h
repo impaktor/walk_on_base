@@ -21,11 +21,11 @@ public:
   void render(SDL_Renderer *renderer, SDL_Rect &camera);
 
   int getPosX() const {
-    return mPosX;
+    return mPos.x;
   }
 
   int getPosY() const {
-     return mPosY;
+     return mPos.y;
   }
 
 protected:
@@ -34,14 +34,12 @@ protected:
 
   Sprite sprite;
 
-  //The X and Y offsets of the dot
-  int mPosX, mPosY;
+  //Current and previous position of character
+  SDL_Point mPos, mOldPos;
 
   // in pixels, total map size:
   int mLevelHeight;
   int mLevelWidth;
-
-  int mOldPosX, mOldPosY;
 
   // number of pixels for a tile (assume square, W = H)
   int mTileSize;

@@ -120,12 +120,12 @@ void TiledMap::render(SDL_Renderer *renderer, SDL_Rect &camera){
 }
 
 
-bool TiledMap::isCollision(int x, int y){
+bool TiledMap::isCollision(SDL_Point pos){
 
   // If we go outside the level, count as "collision"
-  if (x < 0 || x > mTileWidth * mWidth)
+  if (pos.x < 0 || pos.x > mTileWidth * mWidth)
     return true;
-  if (y < 0 || y > mTileHeight * mHeight)
+  if (pos.y < 0 || pos.y > mTileHeight * mHeight)
     return true;
 
   // loop through all layers to find collision layer
@@ -139,7 +139,7 @@ bool TiledMap::isCollision(int x, int y){
 
     // convert 2D coordinates to 1D (assuming we can only move in
     // steps of full tiles)
-    int j = float(x)/mTileWidth + float(y)/mTileHeight * mWidth;
+    int j = float(pos.x)/mTileWidth + float(pos.y)/mTileHeight * mWidth;
     int tileId = layer["data"][j].asInt();   // "gid coordinate"
 
     // if there is a tile on this coordinate, it's a collision

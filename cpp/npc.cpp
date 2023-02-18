@@ -11,8 +11,8 @@ NPC::NPC(Sprite *sprite, int level_height, int level_width):
   srand(0);
 
   // temporary: move to center of map
-  mTargetPosX = int(mLevelWidth/2);
-  mTargetPosY = int(mLevelHeight/2);
+  mTargetPos.x = int(mLevelWidth/2);
+  mTargetPos.y = int(mLevelHeight/2);
 }
 
 
@@ -23,8 +23,8 @@ int NPC::random_int(int max){
 
 void NPC::set_new_target(){
   // pick random point on map to move to
-  mTargetPosX = random_int(mLevelWidth);
-  mTargetPosY = random_int(mLevelHeight);
+  mTargetPos.x = random_int(mLevelWidth);
+  mTargetPos.y = random_int(mLevelHeight);
 }
 
 

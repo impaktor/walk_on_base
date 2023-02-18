@@ -33,8 +33,8 @@ Dot::Dot(Sprite *sprite, int level_height, int level_width):
   Character(sprite, level_height, level_width){
 
   //Initialize the offsets
-  mPosX = 32;
-  mPosY = 32;
+  mPos.x = 32;
+  mPos.y = 32;
 
   // Don't print debug each tick, just each event
   mEvent = true;
@@ -48,19 +48,19 @@ void Dot::handleEvent(SDL_Event &event){
   if(event.type == SDL_KEYDOWN){
     switch(event.key.keysym.sym){
     case SDLK_UP:
-      mPosY -= step;
+      mPos.y -= step;
       sprite.facing = Sprite::up;
       break;
     case SDLK_DOWN:
-      mPosY += step;
+      mPos.y += step;
       sprite.facing = Sprite::down;
       break;
     case SDLK_LEFT:
-      mPosX -= step;
+      mPos.x -= step;
       sprite.facing = Sprite::left;
       break;
     case SDLK_RIGHT:
-      mPosX += step;
+      mPos.x += step;
       sprite.facing = Sprite::right;
       break;
 
@@ -74,14 +74,13 @@ void Dot::handleEvent(SDL_Event &event){
 }
 
 
-//void Dot::move(Tile *tiles[]){
 void Dot::move(TiledMap &map){
 
   Character::move(map);
 
   // Only print keypress if it was updated:
   if (mEvent){
-    std::cout << "\r" << "dot-x " << mPosX << ", dot-y " <<  mPosY << "; "
+    std::cout << "\r" << "pos-x " << mPos.x << ", pos-y " <<  mPos.y << "; "
               << mLevelWidth << "," << mLevelHeight << std::flush;
     // don't need to print this event more (until next event)
     mEvent = false;

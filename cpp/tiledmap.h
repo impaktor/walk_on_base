@@ -25,7 +25,7 @@ public:
 
   void render(SDL_Renderer *rend, SDL_Rect &camera);
 
-  bool isCollision(int x, int y);
+  bool isCollision(SDL_Point pos);
 
 private:
   // Dimensions of entire level/map in tiles
