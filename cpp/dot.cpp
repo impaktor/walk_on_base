@@ -49,19 +49,15 @@ void Dot::handleEvent(SDL_Event &event){
     switch(event.key.keysym.sym){
     case SDLK_UP:
       mPos.y -= step;
-      sprite.facing = Sprite::up;
       break;
     case SDLK_DOWN:
       mPos.y += step;
-      sprite.facing = Sprite::down;
       break;
     case SDLK_LEFT:
       mPos.x -= step;
-      sprite.facing = Sprite::left;
       break;
     case SDLK_RIGHT:
       mPos.x += step;
-      sprite.facing = Sprite::right;
       break;
 
     // case SDLK_1: mUseClip = 0; break;
@@ -80,8 +76,7 @@ void Dot::move(TiledMap &map){
 
   // Only print keypress if it was updated:
   if (mEvent){
-    std::cout << "\r" << "pos-x " << mPos.x << ", pos-y " <<  mPos.y << "; "
-              << mLevelWidth << "," << mLevelHeight << std::flush;
+    std::cout << "\r" << mPos << "; " << mLevelWidth << "," << mLevelHeight << std::flush;
     // don't need to print this event more (until next event)
     mEvent = false;
   }
@@ -93,8 +88,8 @@ void Dot::setCamera(SDL_Rect &camera){
   int height = mTileSize;
 
   //Center the camera over the dot
-  camera.x = (mCollisionBox.x + width / 2)  - WINDOW_WIDTH / 2;
-  camera.y = (mCollisionBox.y + height / 2) - WINDOW_HEIGHT / 2;
+  camera.x = (mPos.x + width / 2)  - WINDOW_WIDTH / 2;
+  camera.y = (mPos.y + height / 2) - WINDOW_HEIGHT / 2;
 
   //Keep the camera in bounds
   if(camera.x < 0)

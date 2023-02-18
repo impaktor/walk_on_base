@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <cstdlib>
 #include "character.h"
+#include "vector2.h"
 #include "sprite.h"
 
 
@@ -13,7 +14,7 @@ public:
   NPC(Sprite *sprite, int level_height, int level_width);
 
 private:
-  SDL_Point mTargetPos;
+  vec mTargetPos;
   int speed;
 
   int random_int(int max);

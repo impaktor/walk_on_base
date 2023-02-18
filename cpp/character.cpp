@@ -15,41 +15,45 @@ Character::Character(Sprite *sprite, int level_height, int level_width):
   mTileSize=32;
 
   mOldPos = mPos;
-
-  //Collision box dimensions
-  mCollisionBox.w = mTileSize;
-  mCollisionBox.h = mTileSize;
 }
 
 
-//void Character::move(Tile *tiles[]){
 void Character::move(TiledMap &map){
-  mCollisionBox.x = mPos.x;
 
   int width = mTileSize;
   int height = mTileSize;
 
   bool isCollision = map.isCollision(mPos);
 
-  //If the dot went too far to the left or right
-  if((mPos.x < 0) || (mPos.x + width > mLevelWidth) || isCollision){
-    //Move back
-    mPos.x = mOldPos.x;
-    mCollisionBox.x = mPos.x;
-  }
-  else
-    mOldPos.x = mPos.x;
+  // if no coordinate change, don't move:
+  if (mPos == mOldPos)
+    return;
 
-  mCollisionBox.y = mPos.y;
+  //If the dot went too far to the left or right
+  if((mPos.x < 0) || (mPos.x + width > mLevelWidth))
+    isCollision = true;
 
   //If the dot went too far up or down
-  if((mPos.y < 0) || (mPos.y + height > mLevelHeight) || isCollision){
-    //Move back
-    mPos.y = mOldPos.y;
-    mCollisionBox.y = mPos.y;
+  if((mPos.y < 0) || (mPos.y + height > mLevelHeight))
+    isCollision = true;
+
+  if(mOldPos.y < mPos.y)
+    sprite.facing = Sprite::down;
+  else if(mOldPos.y > mPos.y)
+    sprite.facing = Sprite::up;
+  else if(mOldPos.x < mPos.x)
+    sprite.facing = Sprite::right;
+  else if(mOldPos.x > mPos.x)
+    sprite.facing = Sprite::left;
+
+  if(isCollision){
+    // move back
+    mPos = mOldPos;
   }
-  else
-    mOldPos.y = mPos.y;
+  else{
+    // move, and update old pos
+    mOldPos = mPos;
+  }
 }
 
 

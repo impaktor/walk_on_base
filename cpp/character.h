@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "tiledmap.h"
+#include "vector2.h"
 #include "sprite.h"
 
 // A class of movable dot, with separating axis collision detection, from
@@ -29,13 +30,10 @@ public:
   }
 
 protected:
-  //Collision box for dot
-  SDL_Rect mCollisionBox;
-
   Sprite sprite;
 
   //Current and previous position of character
-  SDL_Point mPos, mOldPos;
+  vec mPos, mOldPos;
 
   // in pixels, total map size:
   int mLevelHeight;

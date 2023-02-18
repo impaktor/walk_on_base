@@ -5,6 +5,7 @@
 #include <json/json.h>
 #include <string>
 #include <vector>
+#include "vector2.h"
 #include "texture.h"
 
 
@@ -25,14 +26,14 @@ public:
 
   void render(SDL_Renderer *rend, SDL_Rect &camera);
 
-  bool isCollision(SDL_Point pos);
+  bool isCollision(vec pos);
 
 
   // convert from map coordinates, to screen pixel coordinates
-  SDL_Point get_screen_pos(SDL_Point map);
+  vec get_screen_pos(vec map);
 
   // convert from screen pixel coordinates, to map coordinates
-  SDL_Point get_map_pos(SDL_Point screen);
+  vec get_map_pos(vec screen);
 
 private:
   // Dimensions of entire level/map in tiles

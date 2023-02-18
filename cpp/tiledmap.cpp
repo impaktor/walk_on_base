@@ -123,7 +123,7 @@ void TiledMap::render(SDL_Renderer *renderer, SDL_Rect &camera){
 }
 
 
-bool TiledMap::isCollision(SDL_Point pos){
+bool TiledMap::isCollision(vec pos){
 
   // If we go outside the level, count as "collision"
   if (pos.x < 0 || pos.x > mTileWidth * mWidth)
@@ -152,8 +152,8 @@ bool TiledMap::isCollision(SDL_Point pos){
 }
 
 
-SDL_Point TiledMap::get_map_pos(SDL_Point screen){
-  SDL_Point map;
+vec TiledMap::get_map_pos(vec screen){
+  vec map;
   if(mOrientation == std::string("orthogonal")){
     map.x = screen.x / mTileWidth;
     map.y = screen.y / mTileHeight;
@@ -166,8 +166,8 @@ SDL_Point TiledMap::get_map_pos(SDL_Point screen){
 }
 
 
-SDL_Point TiledMap::get_screen_pos(SDL_Point map){
-  SDL_Point screen;
+vec TiledMap::get_screen_pos(vec map){
+  vec screen;
   if(mOrientation == std::string("orthogonal")){
     screen.x = map.x * mTileWidth;
     screen.y = map.y * mTileHeight;
