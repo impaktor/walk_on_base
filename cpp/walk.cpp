@@ -44,7 +44,7 @@ int main()
   SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
 
-  TiledMap map("scroll.json", renderer);
+  TiledMap map("big.json", renderer);
   const int LEVEL_HEIGHT = map.getHeight() * 32; // xxx aaarrgghhh!
   const int LEVEL_WIDTH = map.getWidth()  * 32 ;
   std::cout << "H: " << LEVEL_HEIGHT << std::endl;
