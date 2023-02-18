@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
+#include "cstdlib"
 
 // Load an image to a SDL_Texture, e.g. a set of sprites or tileset or single image
 
@@ -18,6 +19,7 @@ public:
 
   //Loads image at specified path
   bool loadFromFile(const std::string &path, SDL_Renderer *renderer);
+  bool loadFromFile(const std::string &path, SDL_Renderer *renderer, Uint8 *rgb);
 
   //Deallocates texture
   void free();
@@ -47,6 +49,8 @@ public:
   }
 
 private:
+  SDL_Texture* makeTexture(SDL_Surface* loadedSurface, SDL_Renderer *renderer, Uint32 color);
+
   //The actual hardware texture
   SDL_Texture* mTexture;
 
