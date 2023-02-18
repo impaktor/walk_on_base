@@ -27,6 +27,13 @@ public:
 
   bool isCollision(SDL_Point pos);
 
+
+  // convert from map coordinates, to screen pixel coordinates
+  SDL_Point get_screen_pos(SDL_Point map);
+
+  // convert from screen pixel coordinates, to map coordinates
+  SDL_Point get_map_pos(SDL_Point screen);
+
 private:
   // Dimensions of entire level/map in tiles
   int mWidth;
@@ -40,12 +47,14 @@ private:
   };
 
   // Each element holds the clip to a (single) tileset
-  //std::vector<SDL_Rect> mClips;
-  std::vector<clip> mClips;
+   std::vector<clip> mClips;
 
   // Dimensions of one tile in pixels
   int mTileWidth;
   int mTileHeight;
+
+  int mTileWidthHalf;
+  int mTileHeightHalf;
 
   std::map<std::string, Texture> mTileTextures;
 

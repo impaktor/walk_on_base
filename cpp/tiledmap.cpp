@@ -16,7 +16,8 @@ TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
   mWidth = mRoot["width"].asInt();
   mHeight = mRoot["height"].asInt();
 
-  std::cout << "tiled map dim: " << mWidth << "x" << mHeight << " tiles" << std::endl;
+  mTileWidthHalf = mWidth / 2;
+  mTileHeightHalf = mHeight / 2;
 
   // dimension of one tile in pixels
   mTileWidth = mRoot["tilewidth"].asInt();
@@ -25,6 +26,8 @@ TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
   // (Default to orthographic, if field not found)
   mOrientation = mRoot.get("orientation", "orthographic").asString();
 
+  std::cout << "tiled map dim: " << mWidth << "x" << mHeight << " tiles."
+            << " orientation: " << mOrientation << std::endl;
 
   for(size_t i = 0; i < mRoot["tilesets"].size(); ++i){
     Json::Value tileset = mRoot["tilesets"][(int)i];
@@ -146,4 +149,32 @@ bool TiledMap::isCollision(SDL_Point pos){
     return tileId > 0;
   }
   return false;
+}
+
+
+SDL_Point TiledMap::get_map_pos(SDL_Point screen){
+  SDL_Point map;
+  if(mOrientation == std::string("orthogonal")){
+    map.x = screen.x / mTileWidth;
+    map.y = screen.y / mTileHeight;
+  }
+  else if(mOrientation == std::string("isometric")){
+    map.x = (screen.x / mTileWidthHalf  + (screen.y / mTileHeightHalf)) /2;
+    map.y = (screen.y / mTileHeightHalf - (screen.x / mTileWidthHalf)) /2;
+  }
+  return map;
+}
+
+
+SDL_Point TiledMap::get_screen_pos(SDL_Point map){
+  SDL_Point screen;
+  if(mOrientation == std::string("orthogonal")){
+    screen.x = map.x * mTileWidth;
+    screen.y = map.y * mTileHeight;
+  }
+  else if(mOrientation == std::string("isometric")){
+    screen.x = (map.x - map.y) * mTileWidthHalf;
+    screen.y = (map.x + map.y) * mTileHeightHalf;
+  }
+  return screen;
 }
