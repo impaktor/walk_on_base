@@ -5,15 +5,15 @@
 #include <SDL2/SDL_image.h>
 #include <cassert>
 #include "character.h"
-#include "texture.h"
 #include "tiledmap.h"
+#include "sprite.h"
 
 // A class of movable dot, with separating axis collision detection, from
 // http://lazyfoo.net/tutorials/SDL/27_collision_detection/index.php
 
 class Dot: public Character{
 public:
-  Dot(Texture *texture, int level_height, int level_width);
+  Dot(Sprite *sprite, int level_height, int level_width);
 
   //Takes key presses and adjusts the dot's velocity
   void handleEvent(SDL_Event &event);

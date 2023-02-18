@@ -29,14 +29,12 @@ bool touchesWall(const SDL_Rect &box /*, Tile* tiles[]*/){
 }
 
 
-Dot::Dot(Texture *texture, int level_height, int level_width):
-  Character(texture, level_height, level_width){
+Dot::Dot(Sprite *sprite, int level_height, int level_width):
+  Character(sprite, level_height, level_width){
 
   //Initialize the offsets
   mPosX = 32;
   mPosY = 32;
-
-  mUseClip = 0;
 
   // Don't print debug each tick, just each event
   mEvent = true;
@@ -49,15 +47,27 @@ void Dot::handleEvent(SDL_Event &event){
   // Suggest new position
   if(event.type == SDL_KEYDOWN){
     switch(event.key.keysym.sym){
-    case SDLK_UP:    mPosY -= step; break;
-    case SDLK_DOWN:  mPosY += step; break;
-    case SDLK_LEFT:  mPosX -= step; break;
-    case SDLK_RIGHT: mPosX += step; break;
+    case SDLK_UP:
+      mPosY -= step;
+      sprite.facing = Sprite::up;
+      break;
+    case SDLK_DOWN:
+      mPosY += step;
+      sprite.facing = Sprite::down;
+      break;
+    case SDLK_LEFT:
+      mPosX -= step;
+      sprite.facing = Sprite::left;
+      break;
+    case SDLK_RIGHT:
+      mPosX += step;
+      sprite.facing = Sprite::right;
+      break;
 
-    case SDLK_1: mUseClip = 0; break;
-    case SDLK_2: mUseClip = 1; break;
-    case SDLK_3: mUseClip = 2; break;
-    case SDLK_4: mUseClip = 3; break;
+    // case SDLK_1: mUseClip = 0; break;
+    // case SDLK_2: mUseClip = 1; break;
+    // case SDLK_3: mUseClip = 2; break;
+    // case SDLK_4: mUseClip = 3; break;
     }
     mEvent = true;
   }

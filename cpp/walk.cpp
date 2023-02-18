@@ -8,7 +8,7 @@
 #include "npc.h"
 #include "common.h"
 #include "tiledmap.h"
-
+#include "sprite.h"
 
 //The dimension of the window, (bottom right coordinates)
 int WINDOW_WIDTH = 640;
@@ -51,14 +51,18 @@ int main()
   std::cout << "H: " << LEVEL_HEIGHT << std::endl;
   std::cout << "W: " << LEVEL_WIDTH << std::endl;
 
-
   Texture dot_texture;
-  dot_texture.loadFromFile("data/image.png", renderer);
-  Dot dot(&dot_texture, LEVEL_HEIGHT, LEVEL_WIDTH);
+  // For now: assume sprite sheet has 4 rows, use first column:
+  dot_texture.loadFromFile("data/sprites/character/character.bmp", renderer);
+  Sprite dot_sprite(&dot_texture, 32, 32);
+
+  Dot dot(&dot_sprite, LEVEL_HEIGHT, LEVEL_WIDTH);
 
   Texture npc_texture;
-  npc_texture.loadFromFile("data/image.png", renderer);
-  NPC npc(&npc_texture, LEVEL_HEIGHT, LEVEL_WIDTH);
+  Uint8 color_key[3] = {255,255,255};
+  npc_texture.loadFromFile("data/sprites/character/sheet2.png", renderer, color_key);
+  Sprite npc_sprite(&npc_texture, 32, 48);
+  NPC npc(&npc_sprite, LEVEL_HEIGHT, LEVEL_WIDTH);
 
   // MAIN LOOP
   //The camera area

@@ -4,13 +4,13 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <cstdlib>
-#include "texture.h"
 #include "character.h"
+#include "sprite.h"
 
 
 class NPC: public Character{
 public:
-  NPC(Texture *texture, int level_height, int level_width);
+  NPC(Sprite *sprite, int level_height, int level_width);
 
 private:
   int mTargetPosX, mTargetPosY;

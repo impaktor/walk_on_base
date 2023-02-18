@@ -3,10 +3,9 @@
 #include "common.h"
 
 
-Character::Character(Texture *texture, int level_height, int level_width):
-  mTexture{texture}, mLevelHeight{level_height}, mLevelWidth{level_width}
+Character::Character(Sprite *sprite, int level_height, int level_width):
+  sprite{*sprite}, mLevelHeight{level_height}, mLevelWidth{level_width}
 {
-  assert(mTexture != nullptr);
 
   //Initialize the offsets
   mPosX = 32;
@@ -14,20 +13,6 @@ Character::Character(Texture *texture, int level_height, int level_width):
 
   // XXX tmp:
   mTileSize=32;
-
-  // The dimensions of _one_ dot. (The sprite sheet has 2x2 dots)
-  int clipW = 32;
-  int clipH = 32;
-
-  //Setup the clips for our image
-  for(int i = 0; i < 4; ++i){
-    mClips[i].x = i / 2 * clipW;
-    mClips[i].y = i % 2 * clipH;
-    mClips[i].w = clipW;
-    mClips[i].h = clipH;
-  }
-
-  mUseClip = 2;
 
   mOldPosX = mPosX;
   mOldPosY = mPosY;
@@ -71,5 +56,5 @@ void Character::move(TiledMap &map){
 
 void Character::render(SDL_Renderer *renderer, SDL_Rect &camera){
   //Show the object, relative the camera
-  mTexture->render(renderer, mPosX - camera.x, mPosY - camera.y, &mClips[mUseClip]);
+  sprite.render(renderer, mPosX - camera.x, mPosY - camera.y);
 }

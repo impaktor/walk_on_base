@@ -34,7 +34,8 @@
    - [ ] Trigger tiles: doors switch to indoor map, computer terminal, stairs
 
 ** NPCs
-   - [ ] separate out to character class,
+   - [X] separate out to character class,
+   - [X] Separate [[https://github.com/kennycason/sdl_sprite][class for loading sprites]], support direction, different sprite sheets, different height/width of src sprites
    - [ ] random placement on map, with destination to move to.
    - [ ] [[https://gamedevelopment.tutsplus.com/series/how-to-adapt-a-pathfinding-to-a-2d-grid-based-platformer--cms-882][A* pathfinding]]
    - [ ] Can search an NPCs name/ID tag, and mark/change color of character sprite

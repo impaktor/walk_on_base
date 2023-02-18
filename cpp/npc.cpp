@@ -5,8 +5,8 @@
 #include "tiledmap.h"
 
 
-NPC::NPC(Texture *texture, int level_height, int level_width):
-  Character(texture, level_height, level_width){
+NPC::NPC(Sprite *sprite, int level_height, int level_width):
+  Character(sprite, level_height, level_width){
 
   srand(0);
 
