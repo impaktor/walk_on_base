@@ -29,8 +29,8 @@ bool touchesWall(const SDL_Rect &box /*, Tile* tiles[]*/){
 }
 
 
-Dot::Dot(Sprite *sprite, int level_height, int level_width):
-  Character(sprite, level_height, level_width){
+Dot::Dot(Sprite *sprite):
+  Character(sprite){
 
   //Initialize the offsets
   mPos.x = 32;
@@ -76,28 +76,32 @@ void Dot::move(TiledMap &map){
 
   // Only print keypress if it was updated:
   if (mEvent){
-    std::cout << "\r" << mPos << "; " << mLevelWidth << "," << mLevelHeight << std::flush;
+    std::cout << "\r" << mPos << "; " << std::flush;
     // don't need to print this event more (until next event)
     mEvent = false;
   }
 }
 
 
-void Dot::setCamera(SDL_Rect &camera){
-  int width = mTileSize;
-  int height = mTileSize;
+void Dot::setCamera(SDL_Rect &camera, const TiledMap &map){
+  // size of a tile, w x h
+  vec tile = map.get_tile_size();
+
+  // map coordinate to pixel
+  int w = map.getWidth() * tile.x;
+  int h = map.getHeight() * tile.y;
 
   //Center the camera over the dot
-  camera.x = (mPos.x + width / 2)  - WINDOW_WIDTH / 2;
-  camera.y = (mPos.y + height / 2) - WINDOW_HEIGHT / 2;
+  camera.x = (mPos.x + tile.x / 2)  - camera.w / 2;
+  camera.y = (mPos.y + tile.y / 2) - camera.h / 2;
 
   //Keep the camera in bounds
   if(camera.x < 0)
     camera.x = 0;
   if(camera.y < 0)
     camera.y = 0;
-  if(camera.x > mLevelWidth - camera.w)
-    camera.x = mLevelWidth - camera.w;
-  if(camera.y > mLevelHeight - camera.h)
-    camera.y = mLevelHeight - camera.h;
+  if(camera.x > w - camera.w)
+    camera.x = w - camera.w;
+  if(camera.y > h - camera.h)
+    camera.y = h - camera.h;
 }

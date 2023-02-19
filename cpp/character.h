@@ -13,7 +13,7 @@
 class Character{
 public:
   //Initializes the variables
-  Character(Sprite *sprite, int level_height, int level_width);
+  Character(Sprite *sprite);
 
   //Moves the dot and checks collision against tiles
   //void move(Tile *tiles[]);
@@ -34,10 +34,6 @@ protected:
 
   //Current and previous position of character
   vec mPos, mOldPos;
-
-  // in pixels, total map size:
-  int mLevelHeight;
-  int mLevelWidth;
 
   // number of pixels for a tile (assume square, W = H)
   int mTileSize;

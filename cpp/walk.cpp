@@ -46,23 +46,19 @@ int main()
 
 
   TiledMap map("big.json", renderer);
-  const int LEVEL_HEIGHT = map.getHeight() * 32; // xxx aaarrgghhh!
-  const int LEVEL_WIDTH = map.getWidth()  * 32 ;
-  std::cout << "H: " << LEVEL_HEIGHT << std::endl;
-  std::cout << "W: " << LEVEL_WIDTH << std::endl;
 
   Texture dot_texture;
   // For now: assume sprite sheet has 4 rows, use first column:
   dot_texture.loadFromFile("../data/sprites/character/character.bmp", renderer);
   Sprite dot_sprite(&dot_texture, 32, 32);
 
-  Dot dot(&dot_sprite, LEVEL_HEIGHT, LEVEL_WIDTH);
+  Dot dot(&dot_sprite);
 
   Texture npc_texture;
   Uint8 color_key[3] = {255,255,255};
   npc_texture.loadFromFile("../data/sprites/character/sheet2.png", renderer, color_key);
   Sprite npc_sprite(&npc_texture, 32, 48);
-  NPC npc(&npc_sprite, LEVEL_HEIGHT, LEVEL_WIDTH);
+  NPC npc(&npc_sprite);
 
   // MAIN LOOP
   //The camera area
@@ -117,7 +113,7 @@ int main()
     }
 
     dot.move(map);
-    dot.setCamera(camera);
+    dot.setCamera(camera, map);
 
     npc.move(map);
 

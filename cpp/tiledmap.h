@@ -27,6 +27,7 @@ public:
   void render(SDL_Renderer *rend, SDL_Rect &camera);
 
   bool isCollision(vec pos);
+  bool isOnMap(vec pos);
 
 
   // convert from map coordinates, to screen pixel coordinates
@@ -34,6 +35,8 @@ public:
 
   // convert from screen pixel coordinates, to map coordinates
   vec get_map_pos(vec screen);
+
+  vec get_tile_size() const;
 
 private:
   // Dimensions of entire level/map in tiles

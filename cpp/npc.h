@@ -11,7 +11,7 @@
 
 class NPC: public Character{
 public:
-  NPC(Sprite *sprite, int level_height, int level_width);
+  NPC(Sprite *sprite);
 
 private:
   vec mTargetPos;

@@ -3,8 +3,8 @@
 #include "common.h"
 
 
-Character::Character(Sprite *sprite, int level_height, int level_width):
-  sprite{*sprite}, mLevelHeight{level_height}, mLevelWidth{level_width}
+Character::Character(Sprite *sprite):
+  sprite{*sprite}
 {
 
   //Initialize the offsets
@@ -20,9 +20,6 @@ Character::Character(Sprite *sprite, int level_height, int level_width):
 
 void Character::move(TiledMap &map){
 
-  int width = mTileSize;
-  int height = mTileSize;
-
   bool isCollision = map.isCollision(mPos);
 
   // if no coordinate change, don't move:
@@ -30,11 +27,7 @@ void Character::move(TiledMap &map){
     return;
 
   //If the dot went too far to the left or right
-  if((mPos.x < 0) || (mPos.x + width > mLevelWidth))
-    isCollision = true;
-
-  //If the dot went too far up or down
-  if((mPos.y < 0) || (mPos.y + height > mLevelHeight))
+  if(!map.isOnMap(mPos))
     isCollision = true;
 
   if(mOldPos.y < mPos.y)

@@ -13,13 +13,13 @@
 
 class Dot: public Character{
 public:
-  Dot(Sprite *sprite, int level_height, int level_width);
+  Dot(Sprite *sprite);
 
   //Takes key presses and adjusts the dot's velocity
   void handleEvent(SDL_Event &event);
 
   //Centers the camera over the dot
-  void setCamera(SDL_Rect &camera);
+  void setCamera(SDL_Rect &camera, const TiledMap &level);
 
   // Why do I need to include this?
   void move(TiledMap &map);

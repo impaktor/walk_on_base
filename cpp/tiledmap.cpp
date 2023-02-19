@@ -151,6 +151,11 @@ bool TiledMap::isCollision(vec pos){
   return false;
 }
 
+bool TiledMap::isOnMap(vec pos){
+  return !(pos.x < 0 || pos.x > (mWidth-1)*mTileWidth ||
+           pos.y < 0 || pos.y > (mHeight-1)*mTileHeight);
+}
+
 
 vec TiledMap::get_map_pos(vec screen){
   vec map;
@@ -178,3 +183,8 @@ vec TiledMap::get_screen_pos(vec map){
   }
   return screen;
 }
+
+vec TiledMap::get_tile_size() const {
+  return vec(mTileWidth, mTileHeight);
+}
+
