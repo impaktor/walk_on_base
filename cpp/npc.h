@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <cstdlib>
 #include "character.h"
+#include "astar/AStar.h"
 #include "vector2.h"
 #include "sprite.h"
 #include "statemachine.h"
@@ -27,6 +28,8 @@ private:
 
   vec mTargetPos;
   int speed;
+
+  AStar::CoordinateList mPath;
 
   int random_int(int max);
 

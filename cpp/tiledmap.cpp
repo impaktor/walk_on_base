@@ -80,6 +80,9 @@ TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
     int tileW = tileset["tilewidth"].asInt();
 
     int columns = tileset["columns"].asInt();
+    // std::cout << "columns: " << columns << " name: " << tileset["name"]
+    //           << " firstGid: " << firstGid
+    //           << " imagewidth: " << tileset["imagewidth"].asInt() << std::endl;
 
     // this feels a bit strange, to both index the map on filename,
     // and send it as input arg...
@@ -217,6 +220,77 @@ vec TiledMap::get_tile_size() const {
   return vec(mTileWidth, mTileHeight);
 }
 
+
 SDL_Rect TiledMap::get_object(const char* key) const {
   return m_objects.at(key).rect;
+}
+
+
+AStar::CoordinateList TiledMap::getBlocking(){
+  AStar::CoordinateList path;
+
+  // loop through all layers to find collision layer
+  for(size_t i = 0; i < mRoot["layers"].size(); ++i){
+    Json::Value layer = mRoot["layers"][int(i)];
+    std::string layername = layer["name"].asString();
+
+    if(layername != mCollisionLayerName){
+      continue;
+    }
+
+    int columns = layer["width"].asInt();
+
+    int x = 0;
+    int y = 0;
+    for(size_t j = 0; j < layer["data"].size(); ++j){
+      int tileId = layer["data"][int(j)].asInt();
+
+      if(tileId > 0){
+        AStar::Vec2i coordinate;
+        coordinate.x = x;
+        coordinate.y = y;
+        path.push_back(coordinate);
+      }
+
+      x++;
+      if(x == columns){
+        x = 0;
+        y++;
+      }
+    }
+  }
+
+  // for(size_t i = 0; i < path.size(); i++){
+  //   std::cout << i << ": " << path[i].x << ", " << path[i].y << "\n";
+  // }
+
+  // zero indexed tile-coordinates (not pixel coordinates),
+  return path;
+}
+
+
+AStar::CoordinateList TiledMap::getPath(AStar::Vec2i start, AStar::Vec2i end){
+
+  AStar::Generator generator;
+
+  AStar::CoordinateList wall = getBlocking();
+
+  generator.setCollisions(wall);
+
+  // Set 2d map size.
+  generator.setWorldSize({mWidth, mHeight});
+
+  // You can use a few heuristics : manhattan, euclidean or octagonal.
+  generator.setHeuristic(AStar::Heuristic::euclidean);
+  generator.setDiagonalMovement(false);
+
+  std::cout << "Generate path ... \n";
+  // This method returns vector of coordinates from target to source.
+  AStar::CoordinateList path = generator.findPath(start, end);
+
+  for(auto& coordinate : path) {
+    std::cout << "Path:" << coordinate.x << " " << coordinate.y << "\n";
+  }
+
+  return path;
 }

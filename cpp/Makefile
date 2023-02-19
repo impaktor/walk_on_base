@@ -8,12 +8,13 @@ SDL_INCLUDE = -I/usr/local/include
 IMGUI_DIR = imgui
 
 SRC = $(wildcard *.cpp)
+SRC += $(wildcard *.cpp astar/*.cpp)  # fooo!
 SRC += $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
 SRC += $(IMGUI_DIR)/backends/imgui_impl_sdl2.cpp $(IMGUI_DIR)/backends/imgui_impl_sdlrenderer.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
-LIBS = -lGL -ldl `sdl2-config --libs` -lSDL2_image -Ljson/
+LIBS = -lGL -ldl `sdl2-config --libs` -lSDL2_image -Ljson/ -Lastar/
 
 CXXFLAGS = -Wall -Wformat -Wextra -pedantic -Wno-switch $(SDL_INCLUDE) -O0 -g3
 CXXFLAGS += -std=c++11 -I$(IMGUI_DIR) -I$(IMGUI_DIR)/backends

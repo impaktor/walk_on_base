@@ -9,6 +9,7 @@
 #include "imgui/imgui.h"
 #include "vector2.h"
 #include "texture.h"
+#include "astar/AStar.h"
 
 
 class TiledMap{
@@ -31,6 +32,7 @@ public:
   bool isCollision(vec pos);
   bool isOnMap(vec pos);
 
+  AStar::CoordinateList getPath(vec start, vec end);
 
   // convert from map coordinates, to screen pixel coordinates
   vec get_screen_pos(vec map);
@@ -48,6 +50,10 @@ private:
   int mHeight;
 
   bool mShowCollisionLayer;
+
+  // Return vector of all "wall"-like tiles
+  // Coordinate in tile index (not pixels)
+  AStar::CoordinateList getBlocking();
 
   Json::Value mRoot;
 
