@@ -9,6 +9,7 @@
 #include "common.h"
 #include "tiledmap.h"
 #include "sprite.h"
+#include "character.h"
 
 //The dimension of the window, (bottom right coordinates)
 int WINDOW_WIDTH = 640;
@@ -16,6 +17,8 @@ int WINDOW_HEIGHT = 480;
 
 const int FPS = 60;
 const int TICKS_PER_FRAME = 1000 / FPS;
+
+int Character::ID = 0;
 
 void cap_framerate(Uint32 starting_tick){
   if((TICKS_PER_FRAME) > SDL_GetTicks() - starting_tick)

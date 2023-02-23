@@ -6,6 +6,7 @@
 Character::Character(Sprite *sprite):
   sprite{*sprite}
 {
+  thisID = ++ID;
 
   //Initialize the offsets
   mPos.x = 32;

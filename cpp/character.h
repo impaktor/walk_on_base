@@ -37,6 +37,11 @@ protected:
 
   // number of pixels for a tile (assume square, W = H)
   int mTileSize;
+
+private:
+  // each character have a unique ID
+  static int ID;
+  int thisID;
 };
 
 #endif
