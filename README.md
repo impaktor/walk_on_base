@@ -86,11 +86,10 @@ My road map.
 
 <a id="org2dd6c39"></a>
 
-## Imgui
-
-Support [imgui](https://github.com/ocornut/imgui)?
-
--   [ ] For debug print outs?
+## ImGui
+-   [X] Support [imgui](https://github.com/ocornut/imgui).
+-   [X] Basic debug print outs
+  - [X] show layers, e.g. collision layer, for debugging maps
 -   [ ] bouncing into computer terminal - BBS
 -   [ ] bouncing into NPC:
     -   [ ] fight / deliver package / ask

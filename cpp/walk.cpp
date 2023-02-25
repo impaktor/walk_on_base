@@ -11,9 +11,17 @@
 #include "sprite.h"
 #include "character.h"
 
+#include "imgui/imgui.h"
+#include "imgui/backends/imgui_impl_sdl2.h"
+#include "imgui/backends/imgui_impl_sdlrenderer.h"
+
+#if !SDL_VERSION_ATLEAST(2,0,17)
+#error This backend requires SDL 2.0.17+ because of SDL_RenderGeometry() function
+#endif
+
 //The dimension of the window, (bottom right coordinates)
-int WINDOW_WIDTH = 640;
-int WINDOW_HEIGHT = 480;
+int WINDOW_WIDTH = 1080;
+int WINDOW_HEIGHT = 720;
 
 const int FPS = 60;
 const int TICKS_PER_FRAME = 1000 / FPS;
@@ -44,6 +52,27 @@ int main()
   SDL_Renderer *renderer;
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED |
                                 SDL_RENDERER_PRESENTVSYNC);
+
+
+  // Application init: create a dear imgui context, setup some options, load fonts
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
+  ImGuiIO& io = ImGui::GetIO(); (void)io;
+  // io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+  // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+  // Setup Dear ImGui style
+  ImGui::StyleColorsDark();
+
+  // Setup Platform/Renderer backends
+  ImGui_ImplSDL2_InitForSDLRenderer(window, renderer);
+  ImGui_ImplSDLRenderer_Init(renderer);
+
+  // ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+  bool show_demo_window = false;
+  bool show_debug_window = true;
+
+
   //Initialize renderer color
   SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
@@ -75,6 +104,8 @@ int main()
     starting_tick = SDL_GetTicks();
 
     while(SDL_PollEvent(&event)){
+      ImGui_ImplSDL2_ProcessEvent(&event);
+
       switch(event.type){
       case SDL_QUIT:
         quit = true;
@@ -95,32 +126,64 @@ int main()
         switch (event.key.keysym.sym){
         case SDLK_q: quit = true; break;
         case SDLK_ESCAPE: quit = true; break;
+        case SDLK_d: show_debug_window = !show_debug_window; break;
         default: break;
         }
         break;
-      case SDL_MOUSEBUTTONDOWN:
-        switch (event.button.button) {
-        case SDL_BUTTON_LEFT:
-          SDL_ShowSimpleMessageBox(0, "Mouse", "Left mouse button", window);
-          break;
-        case SDL_BUTTON_RIGHT:
-          SDL_ShowSimpleMessageBox(0, "Mouse", "Right mouse button", window);
-          break;
-        default:
-          SDL_ShowSimpleMessageBox(0, "Mouse", "Some other mosuse button", window);
-          break;
-        }
-        break;
+      // case SDL_MOUSEBUTTONDOWN:
+      //   switch (event.button.button) {
+      //   case SDL_BUTTON_LEFT:
+      //     SDL_ShowSimpleMessageBox(0, "Mouse", "Left mouse button", window);
+      //     break;
+      //   case SDL_BUTTON_RIGHT:
+      //     SDL_ShowSimpleMessageBox(0, "Mouse", "Right mouse button", window);
+      //     break;
+      //   default:
+      //     SDL_ShowSimpleMessageBox(0, "Mouse", "Some other mosuse button", window);
+      //     break;
+      // }
+      // break;
       }
       dot.handleEvent(event);
     }
+
+    // at start of the Dear ImGui frame
+    ImGui_ImplSDLRenderer_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+
 
     dot.move(map);
     dot.setCamera(camera, map);
 
     npc.move(map);
 
+    if(show_demo_window)
+      ImGui::ShowDemoWindow(&show_demo_window);
+    ImGui::SetNextWindowPos({ 0, 0 });
+    if(show_debug_window)
+    {
+      ImGui::Begin("Debug##1");
+      //show_debug_window = !show_debug_window;
+
+      ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+      ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
+
+      int xMouse, yMouse;
+      SDL_GetMouseState(&xMouse, &yMouse);
+      std::string s1 = "Mouse x,y: " + std::to_string(xMouse) + " " + std::to_string(yMouse);
+      ImGui::Text(s1.c_str());
+
+      vec map_pos = map.get_map_pos(vec(xMouse, yMouse));
+      std::string s2 = "map x,y: " + std::to_string(map_pos.x) + " " + std::to_string(map_pos.y);
+      ImGui::Text(s2.c_str());
+
+      ImGui::End();
+    }
+
+
     //RENDER THE SCENE
+
     //Recommended: First clear the renderer, (using the set render color)
     SDL_RenderClear(renderer);
 
@@ -128,14 +191,28 @@ int main()
     dot.render(renderer, camera);
     npc.render(renderer, camera);
 
-    //player.render(renderer);
+    // at end of frame
+    ImGui::Render();
 
-    // FInally Present on screen
+    SDL_RenderSetScale(renderer, io.DisplayFramebufferScale.x, io.DisplayFramebufferScale.y);
+    // SDL_SetRenderDrawColor(renderer, (Uint8)(clear_color.x * 255), (Uint8)(clear_color.y * 255), (Uint8)(clear_color.z * 255), (Uint8)(clear_color.w * 255));
+    ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
+
+
+    // Finally Present on screen
     SDL_RenderPresent(renderer);
 
     cap_framerate(starting_tick);
   }
 
+  // // Cleanup
+  ImGui_ImplSDLRenderer_Shutdown();
+  ImGui_ImplSDL2_Shutdown();
+  ImGui::DestroyContext();
+
+  SDL_DestroyRenderer(renderer);
+  SDL_DestroyWindow(window);
+  SDL_Quit();
 
   return 0;
 }

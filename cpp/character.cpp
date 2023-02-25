@@ -1,6 +1,7 @@
 #include <iostream>
 #include "character.h"
 #include "common.h"
+#include "imgui/imgui.h"
 
 
 Character::Character(Sprite *sprite):
@@ -54,4 +55,12 @@ void Character::move(TiledMap &map){
 void Character::render(SDL_Renderer *renderer, SDL_Rect &camera){
   //Show the object, relative the camera
   sprite.render(renderer, mPos.x - camera.x, mPos.y - camera.y);
+
+  std::ostringstream stream;
+  stream << "ID: " << thisID << " x,y: " << mPos << " facing: " << sprite.facing;
+
+  if(ImGui::Begin("Debug##1")){
+    ImGui::Text("%s", stream.str().c_str());
+  }
+  ImGui::End();
 }

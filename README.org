@@ -33,6 +33,7 @@
    - [X] support collision checks with walls (us "collision" layer)
    - [ ] Trigger tiles: doors switch to indoor map, computer terminal, stairs
 
+   - [X] show layers, e.g. collision layer, for debugging maps
 ** NPCs
    - [X] separate out to character class,
    - [X] Separate [[https://github.com/kennycason/sdl_sprite][class for loading sprites]], support direction, different sprite sheets, different height/width of src sprites
@@ -44,10 +45,10 @@
    - [ ] mouse integration
      - [ ] click sets destination for player
      - [ ] click NPC, to give action (e.g. show name & stats, for now)
-** Imgui
-   Support [[https://github.com/ocornut/imgui][imgui]]?
-
-   - [ ] For debug print outs?
+** ImGui
+   - [X] Support [[https://github.com/ocornut/imgui][imgui]] ([[file:~/usr/src/imgui/examples/example_sdl2_sdlrenderer/main.cpp][example]] using only SDLrender).
+   - [X] Basic debug print outs
+   - [ ] print coordinates of clicked tile?
    - [ ] bouncing into computer terminal - BBS
    - [ ] bouncing into NPC:
      - [ ] fight / deliver package / ask

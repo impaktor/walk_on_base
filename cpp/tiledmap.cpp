@@ -5,12 +5,15 @@
 #include <iostream>
 #include <string>
 #include "tiledmap.h"
+#include "imgui/imgui.h"
 
 
 TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
   std::cout << "tiled map name\t" << name << std::endl;
   std::ifstream ifile(name, std::ifstream::in);
   ifile >> mRoot;
+
+  mShowCollisionLayer = false;
 
   // Map dimensions in units of tiles
   mWidth = mRoot["width"].asInt();
@@ -101,7 +104,7 @@ void TiledMap::render(SDL_Renderer *renderer, SDL_Rect &camera){
     std::string layername = layer["name"].asString();
 
     // Don't render collision layer (typically we use a red tile for this)
-    if(layername == mCollisionLayerName){
+    if(layername == mCollisionLayerName && !mShowCollisionLayer){
       continue;
     }
 
@@ -120,6 +123,11 @@ void TiledMap::render(SDL_Renderer *renderer, SDL_Rect &camera){
       }
     }
   }
+
+  if(ImGui::Begin("Debug##1")){
+    ImGui::Checkbox(mCollisionLayerName.c_str(), &mShowCollisionLayer);
+  }
+  ImGui::End();
 }
 
 
@@ -187,4 +195,3 @@ vec TiledMap::get_screen_pos(vec map){
 vec TiledMap::get_tile_size() const {
   return vec(mTileWidth, mTileHeight);
 }
-

@@ -59,11 +59,6 @@ void Dot::handleEvent(SDL_Event &event){
     case SDLK_RIGHT:
       mPos.x += step;
       break;
-
-    // case SDLK_1: mUseClip = 0; break;
-    // case SDLK_2: mUseClip = 1; break;
-    // case SDLK_3: mUseClip = 2; break;
-    // case SDLK_4: mUseClip = 3; break;
     }
     mEvent = true;
   }

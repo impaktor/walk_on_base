@@ -2,33 +2,41 @@
 # https://www.gnu.org/software/make/manual/make.html
 
 CXX = g++
-SDL_LIB = `pkg-config --cflags --libs sdl2` -lSDL2_image
-SDL_INCLUDE = -I/usr/local/include
-FLAGS = -Wall -Wextra -pedantic -Wno-switch -c -std=c++11 $(SDL_INCLUDE) -O0 -g3
-LDFLAGS = $(SDL_LIB) -Ljson/
+#CXX = clang++
 EXECUTABLE = walk
+SDL_INCLUDE = -I/usr/local/include
+IMGUI_DIR = imgui
 
 SRC = $(wildcard *.cpp)
+SRC += $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
+SRC += $(IMGUI_DIR)/backends/imgui_impl_sdl2.cpp $(IMGUI_DIR)/backends/imgui_impl_sdlrenderer.cpp
+
 OBJ = $(SRC:.cpp=.o)
 
+LIBS = -lGL -ldl `sdl2-config --libs` -lSDL2_image -Ljson/
+
+CXXFLAGS = -Wall -Wformat -Wextra -pedantic -Wno-switch $(SDL_INCLUDE) -O0 -g3
+CXXFLAGS += -std=c++11 -I$(IMGUI_DIR) -I$(IMGUI_DIR)/backends
+CXXFLAGS += `sdl2-config --cflags`
+CFLAGS = $(CXXFLAGS)
+
 all: $(EXECUTABLE)
+	@echo Build complete
 
 .cpp.o: Makedep.rule
-	$(CXX) $(FLAGS) -o $@ $<
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 depend:
-	$(CXX) $(FLAGS) -MM $(SRC) >Makedep.rule
+	$(CXX) $(CXXFLAGS) -c -MM $(SRC) >Makedep.rule
 
 Makedep.rule: Makefile
 	@echo "The makefile has changed since the last 'make depend'."
 
 $(EXECUTABLE): $(OBJ)
-	$(CXX) $(LDFLAGS) -o $@ $^
-#	$(CXX) $(LDFLAGS) -o $@ $+
-#	$(CXX) $< $(LDFLAGS) -o $@ $+
+	$(CXX) -o $@ $^ $(CXXFLAGS) $(LIBS)
 
 clean:
-	rm *.o && rm $(EXECUTABLE)
+	rm $(OBJ) && rm $(EXECUTABLE)
 	make depend
 
 lines:

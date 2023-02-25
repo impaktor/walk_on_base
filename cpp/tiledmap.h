@@ -5,6 +5,7 @@
 #include <json/json.h>
 #include <string>
 #include <vector>
+#include "imgui/imgui.h"
 #include "vector2.h"
 #include "texture.h"
 
@@ -42,6 +43,8 @@ private:
   // Dimensions of entire level/map in tiles
   int mWidth;
   int mHeight;
+
+  bool mShowCollisionLayer;
 
   Json::Value mRoot;
 
