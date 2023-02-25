@@ -13,7 +13,7 @@
 
 class Dot: public Character{
 public:
-  Dot(Sprite *sprite);
+  Dot(Sprite *sprite, const SDL_Rect& start_pos);
 
   //Takes key presses and adjusts the dot's velocity
   void handleEvent(SDL_Event &event);

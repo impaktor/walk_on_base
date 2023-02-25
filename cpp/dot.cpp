@@ -29,12 +29,12 @@ bool touchesWall(const SDL_Rect &box /*, Tile* tiles[]*/){
 }
 
 
-Dot::Dot(Sprite *sprite):
+Dot::Dot(Sprite *sprite, const SDL_Rect& start_pos):
   Character(sprite){
 
   //Initialize the offsets
-  mPos.x = 32;
-  mPos.y = 32;
+  mPos.x = start_pos.x;
+  mPos.y = start_pos.y;
 
   // Don't print debug each tick, just each event
   mEvent = true;

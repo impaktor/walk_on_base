@@ -35,6 +35,7 @@
             99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99],
          "height":30,
          "id":1,
+         "locked":true,
          "name":"bottom",
          "opacity":1,
          "type":"tilelayer",
@@ -161,13 +162,90 @@
          "name":"collisions",
          "opacity":0.3,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":40,
          "x":0,
          "y":0
+        },
+        {
+         "draworder":"topdown",
+         "id":6,
+         "name":"GameObjects",
+         "objects":[
+                {
+                 "class":"",
+                 "height":94.25,
+                 "id":8,
+                 "name":"bartender",
+                 "rotation":0,
+                 "visible":true,
+                 "width":190.5,
+                 "x":289,
+                 "y":32
+                },
+                {
+                 "class":"",
+                 "height":476,
+                 "id":12,
+                 "name":"commoditymarket",
+                 "rotation":0,
+                 "visible":true,
+                 "width":348,
+                 "x":32,
+                 "y":450
+                },
+                {
+                 "class":"",
+                 "height":477,
+                 "id":13,
+                 "name":"shipmarket",
+                 "rotation":0,
+                 "visible":true,
+                 "width":219,
+                 "x":1027,
+                 "y":449
+                },
+                {
+                 "class":"",
+                 "height":128,
+                 "id":14,
+                 "name":"police station",
+                 "rotation":0,
+                 "visible":true,
+                 "width":156.5,
+                 "x":1090,
+                 "y":287
+                },
+                {
+                 "class":"",
+                 "height":32,
+                 "id":16,
+                 "name":"start",
+                 "rotation":0,
+                 "visible":true,
+                 "width":32,
+                 "x":320,
+                 "y":224
+                },
+                {
+                 "class":"",
+                 "height":160,
+                 "id":17,
+                 "name":"equipment shop",
+                 "rotation":0,
+                 "visible":true,
+                 "width":253,
+                 "x":513,
+                 "y":256
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":6,
- "nextobjectid":1,
+ "nextlayerid":7,
+ "nextobjectid":18,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",
@@ -176,7 +254,7 @@
         {
          "columns":16,
          "firstgid":1,
-         "image":"../data\/tilesets\/Inside_A2.png",
+         "image":"..\/data\/tilesets\/Inside_A2.png",
          "imageheight":384,
          "imagewidth":512,
          "margin":0,
@@ -189,7 +267,7 @@
         {
          "columns":1,
          "firstgid":193,
-         "image":"../data\/tilesets\/Tile Set 1_0.png",
+         "image":"..\/data\/tilesets\/Tile Set 1_0.png",
          "imageheight":32,
          "imagewidth":32,
          "margin":0,
@@ -202,7 +280,7 @@
         {
          "columns":16,
          "firstgid":194,
-         "image":"../data\/tilesets\/Inside_B.png",
+         "image":"..\/data\/tilesets\/Inside_B.png",
          "imageheight":512,
          "imagewidth":512,
          "margin":0,
@@ -215,7 +293,7 @@
         {
          "columns":16,
          "firstgid":450,
-         "image":"../data\/tilesets\/interior.png",
+         "image":"..\/data\/tilesets\/interior.png",
          "imageheight":512,
          "imagewidth":512,
          "margin":0,
@@ -228,7 +306,7 @@
         {
          "columns":24,
          "firstgid":706,
-         "image":"../data\/tilesets\/city_inside.png",
+         "image":"..\/data\/tilesets\/city_inside.png",
          "imageheight":512,
          "imagewidth":768,
          "margin":0,
@@ -241,7 +319,7 @@
         {
          "columns":3,
          "firstgid":1090,
-         "image":"../data\/tilesets\/tilesetformattedupdate1.png",
+         "image":"..\/data\/tilesets\/tilesetformattedupdate1.png",
          "imageheight":192,
          "imagewidth":112,
          "margin":0,
@@ -254,7 +332,7 @@
         {
          "columns":16,
          "firstgid":1108,
-         "image":"../data\/tilesets\/steampunkishtilec_750.png",
+         "image":"..\/data\/tilesets\/steampunkishtilec_750.png",
          "imageheight":512,
          "imagewidth":512,
          "margin":0,
@@ -268,7 +346,7 @@
         {
          "columns":16,
          "firstgid":1364,
-         "image":"../data\/tilesets\/tilee.png",
+         "image":"..\/data\/tilesets\/tilee.png",
          "imageheight":512,
          "imagewidth":512,
          "margin":0,
@@ -281,7 +359,7 @@
         {
          "columns":16,
          "firstgid":1620,
-         "image":"../data\/tilesets\/323977FuturisticTileD.png",
+         "image":"..\/data\/tilesets\/323977FuturisticTileD.png",
          "imageheight":512,
          "imagewidth":512,
          "margin":0,
@@ -294,7 +372,7 @@
         {
          "columns":16,
          "firstgid":1876,
-         "image":"../data\/tilesets\/4F7.png",
+         "image":"..\/data\/tilesets\/4F7.png",
          "imageheight":512,
          "imagewidth":512,
          "margin":0,
@@ -307,7 +385,7 @@
         {
          "columns":1,
          "firstgid":2132,
-         "image":"../data\/tilesets\/collisions.png",
+         "image":"..\/data\/tilesets\/collisions.png",
          "imageheight":32,
          "imagewidth":32,
          "margin":0,

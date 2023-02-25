@@ -2,6 +2,7 @@
 #define TILEDMAP_H
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_rect.h>
 #include <json/json.h>
 #include <string>
 #include <vector>
@@ -39,6 +40,8 @@ public:
 
   vec get_tile_size() const;
 
+  SDL_Rect get_object(const char* key) const;
+
 private:
   // Dimensions of entire level/map in tiles
   int mWidth;
@@ -62,6 +65,15 @@ private:
 
   int mTileWidthHalf;
   int mTileHeightHalf;
+
+  // Hold objects, form tiled "object layer"
+  struct object{
+    SDL_Rect rect;
+    std::string name;
+    float rotation;
+    bool visible;
+  };
+  std::map<std::string, object> m_objects;
 
   std::map<std::string, Texture> mTileTextures;
 

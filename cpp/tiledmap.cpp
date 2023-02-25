@@ -43,6 +43,28 @@ TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
     std::cout << "\ttileWidth " << tileset["tilewidth"].asInt() << "\n" << std::endl;
   }
 
+  // Get game objects
+  for(int i = 0; i < (int)mRoot["layers"].size(); ++i){
+    Json::Value layer = mRoot["layers"][i];
+    std::string layername = layer["name"].asString();
+
+    if(layername == std::string("GameObjects")){
+      for(size_t j = 0; j < layer["objects"].size(); j++){
+        object tmp;
+        Json::Value objects = layer["objects"][int(j)];
+        tmp.name =   objects["name"].asString();
+        tmp.rect.x = objects["x"].asInt();
+        tmp.rect.y = objects["y"].asInt();
+        tmp.rect.w = objects["width"].asInt();
+        tmp.rect.h = objects["height"].asInt();
+        tmp.rotation = objects["rotation"].asFloat();
+        tmp.visible = objects["rotation"].asBool();
+
+        std::cout << tmp.name << " x " << tmp.rect.x << " h: " << tmp.rect.h <<"\n";
+        m_objects[tmp.name] = tmp;
+      }
+    }
+  }
 
   // Populate mClips vector, where each element is a unique "gid" id
   // from tile. (gid is the index of the tile on the map, starts
@@ -50,7 +72,7 @@ TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
   // many as tiles on map).
   mClips.clear();
   for(size_t i = 0; i < mRoot["tilesets"].size(); ++i){
-    Json::Value tileset = mRoot["tilesets"][(int)i];
+    Json::Value tileset = mRoot["tilesets"][int(i)];
     int tileCount = tileset["tilecount"].asInt();
     int firstGid = tileset["firstgid"].asInt();
 
@@ -99,8 +121,7 @@ void TiledMap::render(SDL_Renderer *renderer, SDL_Rect &camera){
   int tileW = tileset["tilewidth"].asInt();
 
   for(size_t i = 0; i < mRoot["layers"].size(); ++i){
-    int indexi = i;
-    Json::Value layer = mRoot["layers"][indexi];
+    Json::Value layer = mRoot["layers"][int(i)];
     std::string layername = layer["name"].asString();
 
     // Don't render collision layer (typically we use a red tile for this)
@@ -194,4 +215,8 @@ vec TiledMap::get_screen_pos(vec map){
 
 vec TiledMap::get_tile_size() const {
   return vec(mTileWidth, mTileHeight);
+}
+
+SDL_Rect TiledMap::get_object(const char* key) const {
+  return m_objects.at(key).rect;
 }

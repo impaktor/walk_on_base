@@ -84,7 +84,8 @@ int main()
   dot_texture.loadFromFile("../data/sprites/character/character.bmp", renderer);
   Sprite dot_sprite(&dot_texture, 32, 32);
 
-  Dot dot(&dot_sprite);
+  SDL_Rect start_pos =  map.get_object("start");
+  Dot dot(&dot_sprite, start_pos);
 
   Texture npc_texture;
   Uint8 color_key[3] = {255,255,255};
