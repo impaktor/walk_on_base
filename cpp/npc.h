@@ -7,18 +7,28 @@
 #include "character.h"
 #include "vector2.h"
 #include "sprite.h"
+#include "statemachine.h"
 
 
 class NPC: public Character{
 public:
   NPC(Sprite *sprite);
 
+  ~NPC();
+
+  float bladder;
+
+  void update();
+  StateMachine<NPC>* GetFSM() const;
+
 private:
+  // Manage AI / states
+  StateMachine<NPC>* m_pStateMachine;
+
   vec mTargetPos;
   int speed;
 
   int random_int(int max);
-  void set_new_target();
 
 };
 

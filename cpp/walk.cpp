@@ -158,6 +158,7 @@ int main()
     dot.setCamera(camera, map);
 
     npc.move(map);
+    npc.update();
 
     if(show_demo_window)
       ImGui::ShowDemoWindow(&show_demo_window);
