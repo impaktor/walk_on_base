@@ -1,5 +1,6 @@
 *.FASL
 *.fasl
 *.lisp-temp
-cpp/*.o
+*.o
 cpp/walk
+Makedep.rule
