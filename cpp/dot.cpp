@@ -4,30 +4,6 @@
 #include "common.h"
 
 
-//Checks collision box against set of tiles
-bool touchesWall(const SDL_Rect &box /*, Tile* tiles[]*/){
-  // The touchesWall function checks a given collision box against
-  // tiles of type TILE_CENTER, TILE_TOP, TILE_TOPRIGHT, TILE_RIGHT,
-  // TILE_BOTTOMRIGHT, TILE_BOTTOM, TILE_BOTTOMLEFT, TILE_LEFT, and
-  // TILE_TOPLEFT which are all wall tiles. If you check back when we
-  // defined these constants, you'll see that these are numbered right
-  // next to each other so all we have to do is check if the type is
-  // between TILE_CENTER and TILE_TOPLEFT.
-
-  // //Go through the tiles
-  // for(int i = 0; i < TOTAL_TILES; ++i){
-  //   //If the tile is a wall type tile
-  //   if((tiles[i]->getType() >= TILE_CENTER) && (tiles[i]->getType() <= TILE_TOPLEFT)){
-  //     //If the collision box touches the wall tile
-  //     if(checkCollision(box, tiles[i]->getBox()))
-  //       return true;
-  //   }
-  // }
-
-  //If no wall tiles were touched
-  return false;
-}
-
 
 Dot::Dot(Sprite *sprite, const SDL_Rect& start_pos):
   Character(sprite){
