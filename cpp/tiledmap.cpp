@@ -126,18 +126,22 @@ void TiledMap::render(SDL_Renderer *renderer, SDL_Rect &camera){
       continue;
     }
 
-    int x = 0;
-    int y = 0;
+    vec map_coordinates = {0, 0};
     for(size_t j = 0; j < layer["data"].size(); ++j){
       int tileId = layer["data"][int(j)].asInt();   // "gid coordinate"
 
-      if(tileId > 0)
-        mTileTextures[mClips[tileId - 1].tileSetName].render(renderer, x - camera.x, y - camera.y, &mClips[tileId - 1].rect);
+      if(tileId > 0){
+        vec screen_pos = get_screen_pos(map_coordinates);
 
-      x += mTileWidth;
-      if((j + 1) % mWidth == 0){
-        y += mTileHeight;
-        x = 0;
+        mTileTextures[mClips[tileId - 1].tileSetName].
+          render(renderer, screen_pos.x - camera.x,
+                 screen_pos.y - camera.y, &mClips[tileId - 1].rect);
+      }
+      map_coordinates.x++;
+
+      if(map_coordinates.x == mWidth){
+        map_coordinates.y++;
+        map_coordinates.x = 0;
       }
     }
   }
