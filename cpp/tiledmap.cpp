@@ -289,8 +289,9 @@ AStar::CoordinateList TiledMap::getPath(AStar::Vec2i start, AStar::Vec2i end){
   AStar::CoordinateList path = generator.findPath(start, end);
 
   for(auto& coordinate : path) {
-    std::cout << "Path:" << coordinate.x << " " << coordinate.y << "\n";
+    std::cout << coordinate << " -> ";
   }
+  std::cout << "Done" << std::endl;
 
   return path;
 }

@@ -4,9 +4,8 @@
 #include "common.h"
 
 
-
-Dot::Dot(Sprite *sprite, const SDL_Rect& start_pos):
-  Character(sprite){
+Dot::Dot(Sprite *sprite, const SDL_Rect& start_pos, TiledMap* map):
+  Character(sprite, map){
 
   //Initialize the offsets
   mPos.x = start_pos.x;
@@ -41,9 +40,9 @@ void Dot::handleEvent(SDL_Event &event){
 }
 
 
-void Dot::move(TiledMap &map){
+void Dot::update(){
 
-  Character::move(map);
+  Character::update();
 
   // Only print keypress if it was updated:
   if (mEvent){

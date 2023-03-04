@@ -13,7 +13,7 @@
 
 class Dot: public Character{
 public:
-  Dot(Sprite *sprite, const SDL_Rect& start_pos);
+  Dot(Sprite *sprite, const SDL_Rect& start_pos, TiledMap *map);
 
   //Takes key presses and adjusts the dot's velocity
   void handleEvent(SDL_Event &event);
@@ -21,8 +21,7 @@ public:
   //Centers the camera over the dot
   void setCamera(SDL_Rect &camera, const TiledMap &level);
 
-  // Why do I need to include this?
-  void move(TiledMap &map);
+  void update();
 
 private:
 

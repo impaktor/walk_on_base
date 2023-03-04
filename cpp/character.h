@@ -13,20 +13,21 @@
 class Character{
 public:
   //Initializes the variables
-  Character(Sprite *sprite);
+  Character(Sprite *sprite, TiledMap* map);
 
-  //Moves the dot and checks collision against tiles
-  //void move(Tile *tiles[]);
-  void move(TiledMap &map);
+  //Checks collision against tiles & sprite facing direction
+  void update();
 
   void render(SDL_Renderer *renderer, SDL_Rect &camera);
 
-  int getPosX() const {
-    return mPos.x;
+  vec getPos() const {
+     return mPos;
   }
 
-  int getPosY() const {
-     return mPos.y;
+  TiledMap* map;
+
+  int getTileSize(){
+    return mTileSize;
   }
 
 protected:
@@ -37,6 +38,12 @@ protected:
 
   // number of pixels for a tile (assume square, W = H)
   int mTileSize;
+
+  // Store time for last physics update
+  Uint32 mLastUpdate;
+
+  // (Inverse) movement speed of character (milliseconds / move)
+  Uint32 mInvSpeed;
 
 private:
   // each character have a unique ID

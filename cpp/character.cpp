@@ -2,9 +2,10 @@
 #include "character.h"
 #include "common.h"
 #include "imgui/imgui.h"
+#include <SDL2/SDL_timer.h>
 
 
-Character::Character(Sprite *sprite):
+Character::Character(Sprite *sprite, TiledMap *tilemap):
   sprite{*sprite}
 {
   thisID = ++ID;
@@ -17,19 +18,23 @@ Character::Character(Sprite *sprite):
   mTileSize=32;
 
   mOldPos = mPos;
+
+  mLastUpdate = SDL_GetTicks();
+
+  map = tilemap;
 }
 
 
-void Character::move(TiledMap &map){
+void Character::update(){
 
-  bool isCollision = map.isCollision(mPos);
+  bool isCollision = map->isCollision(mPos);
 
   // if no coordinate change, don't move:
   if (mPos == mOldPos)
     return;
 
   //If the dot went too far to the left or right
-  if(!map.isOnMap(mPos))
+  if(!map->isOnMap(mPos))
     isCollision = true;
 
   if(mOldPos.y < mPos.y)

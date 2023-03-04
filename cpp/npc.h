@@ -13,7 +13,7 @@
 
 class NPC: public Character{
 public:
-  NPC(Sprite *sprite);
+  NPC(Sprite *sprite, TiledMap *map);
 
   ~NPC();
 
@@ -22,14 +22,13 @@ public:
   void update();
   StateMachine<NPC>* GetFSM() const;
 
+  void SetPath(vec);
+  void move();
+  AStar::CoordinateList mPath;
+
 private:
   // Manage AI / states
   StateMachine<NPC>* m_pStateMachine;
-
-  vec mTargetPos;
-  int speed;
-
-  AStar::CoordinateList mPath;
 
   int random_int(int max);
 

@@ -1,9 +1,142 @@
+* Stuff                                                            :noexport:
+- [ ] SDL_RenderCopy - ep 17 of SDL series, render texture into rectangle, use
+  for squishing stuff into correct scaled tiles?
+- [ ] popup imgui-window?
+- [ ] character starting pos, do something with it?
+- [ ] have an entity spawner, make many NPCs?
+- [ ] animated character movement?
+  - https://gamedev.net/forums/topic/689455-how-to-achieve-smooth-tile-based-movement-with-c-and-sdl/5347566/
+  - https://www.parallelrealities.co.uk/tutorials/tbs/tbs1.php "Simply
+    interpolate between the old and new positions in the grid and ignore input
+    during the animation."
+- [X] use isometric?
+- [ ] game scenes management using state machines. Have a render() method, for
+  different game modes. [[https://gamedevelopment.tutsplus.com/articles/how-to-build-a-jrpg-a-primer-for-game-developers--gamedev-6676][jrpg]], or use a state stack
+  - Next Actions:
+    - Implement the state machine code in your favorite programming language.
+    - Create a MenuMenuState and GameState inheriting from IState.
+    - Set the the main menu state as the initial state.
+    - Have both states render different images.
+    - On pressing a button, have the state change from the main menu to the game state.
+
+FSM, blog post based on the book:
+http://www.richardssoftware.net/Home/Post/67
+
+DEPTH SORTING:
+"For properly understanding depth sorting, we must understand that whenever the
+character's x- and y-coordinates are less than those of the tree, the tree
+overlaps the character. Whenever the character's x- and y-coordinates are
+greater than that of the tree, the character overlaps the tree.
+
+When they have the same x-coordinate, then we decide based on the y-coordinate
+alone: whichever has the higher y-coordinate overlaps the other. When they
+have same y-coordinate then we decide based on the x-coordinate alone:
+whichever has the higher x-coordinate overlaps the other.
+
+A simplified version of this is to just sequentially draw the levels starting
+from the farthest tile - that is, tile[0][0] - then draw all the tiles in each
+row one by one. If a character occupies a tile, we draw the ground tile first
+and then render the character tile. This will work fine, because the character
+cannot occupy a wall tile.
+
+Depth sorting must be done every time any tile changes position. For instance,
+we need to do it whenever characters move. We then update the displayed scene,
+after performing the depth sort, to reflect the depth changes."
+
+
+** On Singletons
+#+begin_example
+<impaktor> Am I understanding this right: If I have a singleton class Foo,
+           that I initiate in my main(), can I then access it (e.g.
+           Foo::DoStuff()) from any implementation file, by #include "Foo.h"?
+                                                                        [21:44]
+<Gliese852> impaktor: I think yes, but the definition of a static object
+            variable should be in Foo.cpp, if I understand  [21:54]
+<Gliese852> if you put it in Foo.h, it will go into each object file, and each
+            will have its own singleton  [21:55]
+<Gliese852> because #include "Foo.h" is nothing more than text substitution
+                                                                        [21:56]
+<impaktor> But will I not have to declare the singleton class in Foo.h? And
+           implement it in Foo.cpp?  [21:58]
+<impaktor> I note DynV hasn't posted on the forum since we moved all the posts
+           to a sub-forum.  [22:37]
+<Gliese852> impaktor: Yes, this is usually done, but it is not necessary.
+                                                                        [22:42]
+<impaktor> So I don't need to #include Foo? Hmmm... I should do some
+           experiments.  [22:44]
+
+<Gliese852> impaktor: you could put both the declaration and the definition in
+            Foo.h, but not this time. [22:08:34]
+<sturnclaw> impaktor: you still need to include Foo.h, the difference is
+            whether you are storing an instance of Foo somewhere and using it
+            as `m_foo->DoStuff()` or using the singleton pattern
+            `Foo::Get()->DoStuff()` [01:19:27]
+<sturnclaw> you can treat Foo as a static class though, where there are no
+            non-static member variables or functions, in which case you'd call
+            Foo::DoStuff() directly [01:19:57]
+
+#+end_example
+
+** On ImGui:
+#+begin_example
+<sturnclaw> you should always do
+            if (ImGui::Begin(...)) {
+            /* ... */
+            }
+            ImGui::End()  [08:58]
+<sturnclaw> window visibility is stored separately from the call to Begin, and
+            while you can submit draw commands even if the window isn't
+            visible, they're just silently ignored (but still wasteful)
+<sturnclaw> Generally speaking though, the call to Begin takes a boolean to
+            update if the window is closed, Begin() returns false if the
+            window is collapsed but whether the window is shown at all or not
+            is higher-level application code  [08:59]
+<impaktor> ImGui::Begin() returns false if the window isn't opened?  [09:00]
+<sturnclaw> you most likely should have a top-level IsDebugWindowOpen bool
+            accessible through your debug interface somehow
+<sturnclaw> returns false if the window isn't visible
+<sturnclaw> the call to Begin mutates the pointer-to-bool passed to it if the
+            user clicks the close button, then it's the calling code's
+            responsibility to not call ImGui::Begin()  [09:01]
+<sturnclaw> you're responsible for not calling ImGui::Begin() if the window is
+            "closed"  [09:04]
+<sturnclaw> (you're also responsible for not submitting primitives if the
+            window signals the contents aren't visible by returning false)
+<impaktor> Thanks! I'm not fully understanding (I don't have the code to
+           experiment on now), but would the objects that push strings to the
+           debug windwow also have to use IsDebugWindowOpen ?  [09:05]
+#+end_example
+
+** Other good RPGs
+   *Phantasy star IV [Genesis]*
+   *Chrono Trigger [SNES]*
+   Earth Bound [SNES]
+   *Final Fantasy III (aka VI)*
+   Phantasy star II [Genesis]
+   Final Fantasy 1
+
 * Description
   This is my playground for implementing a 2D RPG like SDL based game which
   aims to be a proof of concept for "[[https://forum.pioneerspacesim.net/viewtopic.php?f=3&t=454][waling on base]]" in the game [[https://github.com/pioneerspacesim/pioneer][Pioneer Space Simulator]].
 
-* My path to glory
-  My road map.
+  I imagine, you can control your whole crew, for x-com/laser squad style of
+  turn based combat, when doing missions or boarding and fighting control over
+  a ship that has been disabled with an EMP missile.
+
+  Graphics should ideally be at least similar to [[https://github.com/CeRiAl/libsyndicate][syndicate]], or Jagged Alliance
+  2 (although, in syndicate, movement was independent of tile grid, something
+  I don't plan to do here, for simplicity sake).
+
+** Features
+   - Load Orthogonal maps from [[https://www.mapeditor.org/][tiled]], support:
+     - multiple tilesets
+     - multiple layers. Any tile in a layer called =collisions= will be used for collision detection.
+     - Support (single) object layer, if named =GameObjects=, and each object
+       has a unique name, e.g.
+       - "start"
+       - "bar"
+* Roadmap - My path to glory
+  Road map.
 
 ** Getting started
 
@@ -19,28 +152,40 @@
 ** Set up map
    - [X] Load tiles from file.
    - [X] Make first map: wall, floor, door, computer terminal, counter
-   - [ ] "Fog of war" in rooms I can not see into / rooms I'm not in
+   - [ ] [[http://archive.gamedev.net/archive/reference/articles/article729.html][Line of sight]] / "Fog of war" in rooms I can not see into / rooms I'm not in ([[https://www.redblobgames.com/articles/visibility/][link]])
    - [X] Read in map from a simple file
-   - [-] Use third party map making tool. Like [[https://www.mapeditor.org/][Tiled]], if so read [[http://gamedev.tutsplus.com/tutorials/level-design/introduction-to-tiled-map-editor/][introduction]]
+   - [X] Use third party map making tool. Like [[https://www.mapeditor.org/][Tiled]], if so read [[http://gamedev.tutsplus.com/tutorials/level-design/introduction-to-tiled-map-editor/][introduction]]
      and how to implement it [[http://gamedev.tutsplus.com/tutorials/implementation/parsing-tiled-tmx-format-maps-in-your-own-game-engine/][here]]. (Another editor is ogmo covered [[http://gamedevelopment.tutsplus.com/tutorials/getting-to-know-ogmo-editor-an-advanced-and-robust-level-editor--gamedev-3843][here]].) For
      Tiled, save maps in json format (since Pioneer uses json), and implement:
      - [X] Hook in jsoncpp.
      - [X] Read in maps. Useful: [[https://github.com/bjorn/tiled/wiki/JSON-Map-Format][Tiled: json-format]] and [[https://en.wikibooks.org/wiki/JsonCpp][jsoncpp]]-documentation.
      - [X] Support multiple layers
      - [X] Support multiple tile sets
-     - [ ] Support arbitrary tile sizes?
    - [X] Find some tile set. http://opengameart.org/
    - [X] support collision checks with walls (us "collision" layer)
    - [ ] Trigger tiles: doors switch to indoor map, computer terminal, stairs
-
+   - [ ] zoom camera? / map? ([[https://discourse.libsdl.org/t/sdl2-zoom-tile-map-with-ui/25460][example]])
    - [X] show layers, e.g. collision layer, for debugging maps
+   - [ ] Animated tiles? E.g. fire, explosion, smoke, water?
+   - [ ] Animated (character) sprite movement
+   - [ ] Support isometric map ([[https://en.wikipedia.org/wiki/Isometric_video_game_graphics][wiki]]), although technically, it is actually [[https://www.significant-bits.com/a-laymans-guide-to-projection-in-videogames/][dimetric]]
+     - Find placeholder tile sets: [[https://opengameart.org/][opengameart.org]] [[https://www.kenney.nl/assets][kenney.nl]] [[https://assetforge.io/][assetforge.io]]
+     - Might it be interesting to convert existing 3D models to isometric
+       tiles: http://crocotile3d.com?
 ** NPCs
    - [X] separate out to character class,
    - [X] Separate [[https://github.com/kennycason/sdl_sprite][class for loading sprites]], support direction, different sprite sheets, different height/width of src sprites
-   - [ ] random placement on map, with destination to move to.
-   - [ ] [[https://gamedevelopment.tutsplus.com/series/how-to-adapt-a-pathfinding-to-a-2d-grid-based-platformer--cms-882][A* pathfinding]]
+   - [X] Separate [[https://gafferongames.com/post/fix_your_timestep/][physics updates]] from [[https://thenumb.at/cpp-course/sdl2/08/08.html][frame rate]] (or modulo ticks)
+   - [X] [[https://gamedevelopment.tutsplus.com/series/how-to-adapt-a-pathfinding-to-a-2d-grid-based-platformer--cms-882][A* pathfinding]], or [[https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2][medium article]], examples [[https://www.redblobgames.com/pathfinding/a-star/implementation.html][here]], [[https://github.coventry.ac.uk/jansonsa/D1/blob/master/pokemonGUI/pokemonGUI/Cordinate.h][here]], [[https://github.com/quantumelixir/pathfinding][here]], or:
+     - C++11: https://github.com/daancode/a-star
+     - C++14: https://github.com/Rikora/A-star
+     - C++14 & "C++11?": https://www.geeksforgeeks.org/a-search-algorithm/
+   - [X] Implement a Finite State Machine system, for AI (Hierarchical FSM
+     seems useful e.g. have one for ranged combat, one for close combat, etc.)
+   - [ ] Imgui debug window listing NPCs, can select in table, get detailed
+     view e.g. of state
    - [ ] Can search an NPCs name/ID tag, and mark/change color of character sprite
-   - [ ] support collision check between characters [[http://lazyfoo.net/tutorials/SDL/27_collision_detection/index.php][tutorial]]
+   - [ ] Support collision check between characters [[http://lazyfoo.net/tutorials/SDL/27_collision_detection/index.php][tutorial]]
 
    - [ ] mouse integration
      - [ ] click sets destination for player
@@ -63,154 +208,174 @@
      - [ ] Station has a police "station"/terminal
      - [ ] Station has a BBS terminal
      - [ ] Station has a commodity terminal
-   - [ ] Player has a wrist "[[http://fallout.wikia.com/wiki/Pip-Boy][Pip-boy]]" computer?
+   - [ ] Player has a wrist "[[http://fallout.wikia.com/wiki/Pip-Boy][Pip-boy]]" computer, for "Pioneer F3 Info view"?
    - [ ] Player/NPC has an inventory? Mechanics for dropping/picking up items?
    - [ ] Manually prompt to set player stats when starting new game. Strength,
      dexterity, speed, rifle skill, blade skill, gun skill, throw skill, looks
-** Potentially: Now ready for initial inclusion into pioneer
+** Integration into Pioneer Space Simulator
    At this point, the game could be included into Pioneer:
+*** Before - sanitize code
+   - Rename variables and class names to have consistent naming standard.
+   - Rename files
+   - Fix project structure, =contrib/= , =src/=, =data=
+   - Run valgrind to find any memory leaks
+   - Run clang-format to format code
+*** Minimum feature set for inclusion
+    - When player lands on a station, the "walk on base" game takes over
 
-   - [ ] When player lands on a station, the "walk on base" game takes over
+    - The player is placed in the main lobby, behind is a closed door to the
+      ship hangar. Ships are not shown (that is for later).
 
-   - [ ] Player has to access terminals on base to open BBS, commodity market,
-     ship market, police
+    - One, or maybe two different station maps. (Could also have faction logo
+      on floor tiles in the entrance of the lobby)
 
-   - [ ] DeliverPackage now requires player not only to land at the right
-     base, but also find the person to deliver the package to. Walk up to
-     person and engage in conversation.
+    - NPCs walk around, walking up to them opens chat dialogue. They could all
+      be dismissive (for now).
 
-   - [ ] Assassination missions are moved from BBS list, to be accessible
-     through conversation with special shady people in the Bar. (Until
-     person-to-person combat is implemented, the assassination itself is
-     unchanged, i.e. must target the ship)
+    - Player has to access computer terminals on the station to open
+      BBS-screen, commodity market, ship market, ship equipment shop, and
+      police.
 
-   - [ ] Bartender is "special". Engaging him in conversation, he would say
-     different useful things. What is said should ultimately be pooled from
-     some "rumour" module (could depend on station/location, date, etc.). But
-     initially, these strings could be hard coded:
+    - DeliverPackage now requires player not only to land at the right base,
+      but also find the right person to deliver the package to. Walk up to
+      person and engage in conversation.
 
-     - "You look like a rookie. You want a word of advice, make sure never to
-       travel into uninhabited systems with too little fuel to jump back out"
+    - Assassination missions are moved from BBS list, to be accessible
+      through conversation with special shady people in the Bar. (Until
+      person-to-person combat is implemented, the assassination itself is
+      unchanged, i.e. must target the ship)
 
-     - "I've seen your kind before. You're looking hungry for adventure, kid,
-       but I'd be surprised if you're still alive come the end of the year"
+    - Black market (both the real, and the police/fake) moved from BBS to
+      NPC(s) sitting in the bar.
 
+    - Advice module moved to be conversations with the Bartender, e.g.
 
-   - [ ] When landed, the player is placed in the main lobby, behind him is a
-     closed door to the ship hangar. Ships are not shown (that is for later).
+      - "You look like a rookie. You want a word of advice, make sure never to
+        travel into uninhabited systems with too little fuel to jump back out"
 
-** Show ships in hangar?
-   This would be the main place in the game where the player would get a sense
-   of scale of different ships!
+      - "I've seen your kind before. You're looking hungry for adventure, kid,
+        but I'd be surprised if you're still alive come the end of the year"
 
-   This isn't crucial, but would, after combat is implemented, allow disabling
-   enemy ships in space, dock with them, board them, and engage in
-   hand-to-hand combat, to then loot their cargo/crew.
+*** Show ships in hangar?
+    This would be the main place in the game where the player would get a
+    sense of scale of different ships!
 
-   - [ ] Maps have a hangar, and each ship has a (multi-)sprite representation
-     that are tiled together to one full ship.
+    This isn't crucial, but would, after combat is implemented, allow
+    disabling enemy ships in space, with special energy weapons, dock with
+    them, board them, and engage in hand-to-hand combat, to then loot their
+    cargo/crew.
 
-   - [ ] Each ship has an internal "map", with cockpit, hall/entrance, cargo
-     bay (filled with crates depending on state of cargo hold), and personal
-     crew cabins, (and (room for?) passenger cabins?).
+    - Maps have a hangar, and each ship has a multi-tile set
+      representation that are tiled together to one full ship.
 
-   - [ ] Player enters/leaves ship by walking up to the cockpit chair inside
-     the ship. Leaves ship by walking up to the door of the ship (/ and/or
-     cargo loading bay?).
+    - Each ship has an internal "map", with cockpit, hall/entrance, cargo bay
+      (filled with crates depending on state of cargo hold), and personal crew
+      cabins, (and (room for?) passenger cabins?).
+
+    - Player enters/leaves ship by walking up to the cockpit chair inside
+      the ship. Leaves ship by walking up to the door of the ship (/ and/or
+      cargo loading bay?).
 
 ** Combat system
+   When engaging in combat, game switches over to turn based. Combat could be
+   similar to X-com, or some GURPS based system. Key here, is the ability to
+   control several characters, making out your crew.
 
-   - [ ] Health system, with body parts selectable (from an image?) taking
-     damage, overall health, bleeding to death, poison, drugs?
+   - Combat:
+     - Choose your weapon, & action (stab/slash/punch)
+     - Choose enemy body part, from a list, or ideally a silhouette image
+     - Attack is carried out, uses up action points / time units
+     - NPCs make their move
 
-   - [ ] Mechanics to heal: hospital/treatment facility/doctor/medi-kit
+   - Health system, overall health + specific body part health, bleeding to
+     death, poison, drugs?
+     - Hospital/treatment facility/doctor/medi-kit
 
-   - [ ] Personal equipment shop: knifes, pistols, rifle, sniper rifle,
-     grenade, medi-kit, body armour, helmet, night vision, smoke grenade,
-     timed charge, stun-rod, maze
+   - Personal equipment shop to facilitate combat: knifes, pistols, rifle,
+     sniper rifle, medi-kit, body armour, helmet, night vision, grenade (smoke
+     & explosive), timed charge, stun-rod, maze
 
-   - [ ] Patrolling NPC police men on base, enforcing law, attacking you if
-     they see you attack someone (i.e. need a line-of-sight-calculation). If
-     they disable you, what then? Initially only one outcome: one side dies.
+   - Patrolling NPC-police on base, enforcing law, attacking you if they see
+     you attack someone (i.e. need a line-of-sight-calculation). If they
+     disable you, what then? Initially only Thuderdome outcome: two men enter,
+     one man leaves.
 
-   - [ ] Set up initial system:
-     - Choose what to use (e.g. gun, fist, maze, sword, mag.)
-     - Applied to / target (e.g. left leg, head, groin)
-
-   - [ ] Select body part to aim for
-
+   - Note to self: read:
+     - [[https://gamedevelopment.tutsplus.com/series/balancing-turn-based-rpgs--gamedev-12702][Balancing Turn-Based RPGs]]
+     - [[https://gamedevelopment.tutsplus.com/articles/how-to-build-a-jrpg-a-primer-for-game-developers--gamedev-6676][How to Build a JRPG: A Primer for Game Developers]]
+       "The combat flow is controlled using a state machine with two states;
+       one state to tick the actions and another state to execute the top
+       action when the time comes. "
 ** Above and beyond
-   Change from Orthogonal to Isometric representation? Downside is this will
-   put a lot higher demand on the tiles and character animations. There's
-   something called [[http://crocotile3d.com/][crocotile3D]] that makes isometric tiles from 3D models (if
-   blender-fu is weak?).
+   - NPC / player can drink beer in bar, and get drunk, introducing noise to
+     the path finding algorithm?
 
-   - [ ] NPC / player can drink beer in bar, and get drunk, introducing noise
-     to the path finding algorithm?
+   - Passengers or crew can attack you on your ship, switching pioneer to the
+     "walk on base" state (but technically "walk on ship").
 
-   - [ ] First find a suitable tile-set for isometric perspective. If not
-     found, then never mind.
-
-   - [ ] Can player use more subtle ways of affecting game world than grenades
-     and projectile weapons? Like putting poison in someones drink in the bar?
+   - Can player use more subtle ways of affecting game world than grenades and
+     projectile weapons? Like putting poison in someones drink in the bar?
      Setting bomb with delayed timer, and leaving (similar to X-Com UFO/TFTD)?
 
-   - [ ] Can player use his crew as a tactical combat team on the ground?
-     Would player have full control of them during combat, or they fight
-     independent of you, by targeting your enemies? Could you assign targets
-     to them, and crew would fight them? How would they behave in a cloud of
-     smoke, with zero view?
+   - Can player use his crew as a tactical combat team on the ground? Would
+     player have full control of them during combat, or they fight independent
+     of you, by targeting your enemies? Could you assign targets to them, and
+     crew would fight them? How would they behave in a cloud of smoke, with
+     zero view?
 
-   - [ ] What can be done to make bases on different locations look different,
-     or have their own "feel"?
+   - What can be done to make bases on different locations look different, or
+     have their own "feel"? Do [[https://ijdykeman.github.io/ml/2017/10/12/wang-tile-procedural-generation.html][procedural generated bases]], randomly generated
+     [[http://beckylavender.co.uk/portfolio/the-zelda-dungeon-generator/][zelda maps]], or wave [[https://selfsame.itch.io/unitywfc][function collapse]].
 
-   - [ ] Some bases/bars could have arcade machines, so we could have
-     mini-games in the game? Pong/pac-man/card-game?/frogger (Doom!). Tie
-     these into the story, but e.g. leaving secret messages to others through
-     what you type in the high score list? I.e. you would have to play the
-     game (well enough) to get into high score list (or unplug arcade machine
-     to reset it)? This is more like an adventure game elements thingy.
+   - Cut scene system? If we have nice graphics/art to display, for immersion.
+     E.g. for quests.
 
-* Reading
-** To read:
-   https://gamedevelopment.tutsplus.com/series/balancing-turn-based-rpgs--gamedev-12702
+   - Very far out suggestion: Some bases/bars could have arcade machines, with
+     mini-games. Pong/pac-man/card-game?/frogger (Doom!). Tie these into the
+     story: leaving secret messages to others through what you type in the
+     high score list? I.e. you would have to play the game (well enough) to
+     get into high score list (or unplug arcade machine to reset it)? This is
+     more like an adventure game elements thingy.
 
-   Article for making procedural levels / rooms / dungeons. Might be useful
-   for e.g. asteroid bases.
-   https://ijdykeman.github.io/ml/2017/10/12/wang-tile-procedural-generation.html
-
-** Have read
-
-- en del om "State machine", och "state stacks":
-  - "Update() and Render() are called each frame for the currently active state;
-     OnEnter() and OnExit() are called when changing state... States can be
-     pushed onto the stack using the Push() call and popped off with a Pop()
-     call, and the state on the very top of the stack is the one that's updated
-     and rendered."
-  - också om "Tiled", som är en map-editor.
-  - "We're going to have a close look at Active-Time based combat systems,
-    where combatants don't all necessarily get an equal number of turns.
-    Faster entities may get more turns... The combat flow is controlled using
-    a state machine with two states; one state to tick the actions and another
-    state to execute the top action when the time comes."
-http://gamedevelopment.tutsplus.com/articles/how-to-build-a-jrpg-a-primer-for-game-developers--gamedev-6676
-
-- Massvis med nyttig information och mycket bra länkar i denna post om "isometric" design:
-http://gamedevelopment.tutsplus.com/tutorials/creating-isometric-worlds-a-primer-for-game-developers--gamedev-6511
-
-- För att plocka upp saker "pickups", och "trigger tiles", "scroll big map", "path finding" (med
-länkar till [[http://www.policyalmanac.org/games/aStarTutorial.htm][A* pathfinding]], [[http://gamedevelopment.tutsplus.com/tutorials/understanding-goal-based-vector-field-pathfinding--gamedev-9007][goal based vector field pathfinding]], [[http://gamedev.tutsplus.com/tutorials/implementation/speed-up-a-star-pathfinding-with-the-jump-point-search-algorithm/][speedier A*
-pathfinding algo]])
-http://gamedevelopment.tutsplus.com/tutorials/creating-isometric-worlds-a-primer-for-game-developers-continued--gamedev-9215
+   - Have an [[https://gamedev.stackexchange.com/questions/38289/embed-if-text-parser-in-another-game][embedded]] interactive fiction engine? Could be used when going on
+     quest into the city / bad lands.
 
 * Resources
-  Large collection of links
-  http://www-cs-students.stanford.edu/~amitp/gameprog.html
+  Useful articles to read, or have read.
+** RPG / Game Programming
+   - [[https://gameprogrammingpatterns.com/contents.html][Game Programming Patterns]] - Robert Nystrom (free web book)
 
-** General Common lisp game programming
+   - [[http://www-cs-students.stanford.edu/~amitp/gameprog.html][Amit’s Game Programming Information]] (many links)
+     - [[https://www.redblobgames.com/][Red Blob Games from Amit Patel]]
+
+   - Programming Game AI [[https://github.com/wangchen/Programming-Game-AI-by-Example-src][by Example]] - Mat Buckland
+
+   - [[http://www.gameaipro.com/][Game AI Pro – Online Edition 2021]]
+
+   - [[http://howtomakeanrpg.com/a/how-to-make-an-rpg-release.html][How to Make an RPG (Book)]] - Dan Schuller
+
+   - [[http://gamedevelopment.tutsplus.com/articles/how-to-build-a-jrpg-a-primer-for-game-developers--gamedev-6676][How to Build a JRPG: A Primer for Game Developers]] - Good primer on game states
+
+   - Isometric maps & art
+     - [[http://gamedevelopment.tutsplus.com/tutorials/creating-isometric-worlds-a-primer-for-game-developers--gamedev-6511][Creating Isometric Worlds: A Primer for Game Developers]] - Very useful
+     - [[https://gamedevelopment.tutsplus.com/tutorials/creating-isometric-worlds-a-primer-for-game-developers-continued--gamedev-9215][Creating Isometric Worlds: A Primer for Game Developers, Continued]] - Isometric scrolling
+     - [[https://gamedevelopment.tutsplus.com/tutorials/quick-tip-cheap-n-easy-isometric-levels--gamedev-6282][Quick Tip: Cheap 'n' Easy Isometric Levels]] - on depth sorting
+     - [[http://www.gotoandplay.it/_articles/2004/10/tcgtipa.php][The Complete Guide to Isometric Pixel Art]] - drawing basic objects, colouring, lighting, texturing
+
+   - Pathfinding
+     - [[http://gamedev.tutsplus.com/tutorials/implementation/speed-up-a-star-pathfinding-with-the-jump-point-search-algorithm/][How to Speed Up A* Pathfinding With the Jump Point Search Algorithm]] - If need faster path finding
+     - [[http://gamedevelopment.tutsplus.com/tutorials/understanding-goal-based-vector-field-pathfinding--gamedev-9007][Understanding Goal-Based Vector Field Pathfinding]] - For alternative path finding?
+     - [[http://www.richardssoftware.net/Home/Post/46][Pathfinding 1: Map Representation and Preprocessing]]
+** General C++
+   - [[https://cplusplus.com/doc/tutorial/][cplusplus]]
+   - [[https://en.cppreference.com/w/cpp][cppreference.com]]
+   - [[https://www.learncpp.com/][Learn C++]]
+   - [[https://github.com/aras-p/ClangBuildAnalyzer][ClangBuildAnalyzer]] - Play with this, to learn how to reduce compile time (even if not needed):
+   - Mike Shah tutorials: [[https://www.youtube.com/watch?v=ILgiCy6IXLw&list=PLvv0ScY6vfd9wBflF0f6ynlDQuaeKYzyc][design pattern]], [[https://www.youtube.com/watch?v=QM4WW8hcsPU&list=PLvv0ScY6vfd-p1gSnbQhY7vMe2rng0IL0][SDL2]], [[https://www.youtube.com/watch?v=Q7vm264YNrM&list=PLvv0ScY6vfd9zlZkIIqGDeG5TUWswkMox][openGL]], [[https://www.youtube.com/watch?v=LGOgNqkRMs0&list=PLvv0ScY6vfd8j-tlhYVPYgiIyXduu6m-L][C++]], [[https://www.youtube.com/watch?v=Fn0xBsmact4&list=PLvv0ScY6vfd_ocTP2ZLicgqKnvq50OCXM][Modern C++]]
+** General Common lisp game programming                            :noexport:
    https://github.com/lispgames/lispgames.github.io/wiki
 
-** Common Lisp + OpenGL
+** Common Lisp + OpenGL                                            :noexport:
    http://nklein.com/2010/06/nehe-tutorials-for-cl-opengl/
    http://nklein.com/2010/06/nehe-tutorial-02-drawing-triangles-and-quadrilaterals/
    http://nklein.com/2010/06/nehe-tutorial-03-color/

@@ -84,14 +84,14 @@ int main()
   dot_texture.loadFromFile("../data/sprites/character/character.bmp", renderer);
   Sprite dot_sprite(&dot_texture, 32, 32);
 
-  SDL_Rect start_pos =  map.get_object("start");
-  Dot dot(&dot_sprite, start_pos);
+  SDL_Rect start_pos = map.get_object("start");
+  Dot dot(&dot_sprite, start_pos, &map);
 
   Texture npc_texture;
   Uint8 color_key[3] = {255,255,255};
   npc_texture.loadFromFile("../data/sprites/character/sheet2.png", renderer, color_key);
   Sprite npc_sprite(&npc_texture, 32, 48);
-  NPC npc(&npc_sprite);
+  NPC npc(&npc_sprite, &map);
 
   // MAIN LOOP
   //The camera area
@@ -153,11 +153,9 @@ int main()
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
 
-
-    dot.move(map);
+    dot.update();
     dot.setCamera(camera, map);
 
-    npc.move(map);
     npc.update();
 
     if(show_demo_window)
