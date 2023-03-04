@@ -27,10 +27,10 @@ TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
   mTileHeight = mRoot["tileheight"].asInt();
 
   // (Default to orthographic, if field not found)
-  mOrientation = mRoot.get("orientation", "orthographic").asString();
+  mProjection = mRoot.get("orientation", "orthographic").asString();
 
   std::cout << "tiled map dim: " << mWidth << "x" << mHeight << " tiles."
-            << " orientation: " << mOrientation << std::endl;
+            << " orientation: " << mProjection << std::endl;
 
   for(size_t i = 0; i < mRoot["tilesets"].size(); ++i){
     Json::Value tileset = mRoot["tilesets"][(int)i];
@@ -191,11 +191,11 @@ bool TiledMap::isOnMap(vec pos){
 
 vec TiledMap::get_map_pos(vec screen){
   vec map;
-  if(mOrientation == std::string("orthogonal")){
+  if(mProjection == std::string("orthogonal")){
     map.x = screen.x / mTileWidth;
     map.y = screen.y / mTileHeight;
   }
-  else if(mOrientation == std::string("isometric")){
+  else if(mProjection == std::string("isometric")){
     map.x = (screen.x / mTileWidthHalf  + (screen.y / mTileHeightHalf)) /2;
     map.y = (screen.y / mTileHeightHalf - (screen.x / mTileWidthHalf)) /2;
   }
@@ -205,11 +205,11 @@ vec TiledMap::get_map_pos(vec screen){
 
 vec TiledMap::get_screen_pos(vec map){
   vec screen;
-  if(mOrientation == std::string("orthogonal")){
+  if(mProjection == std::string("orthogonal")){
     screen.x = map.x * mTileWidth;
     screen.y = map.y * mTileHeight;
   }
-  else if(mOrientation == std::string("isometric")){
+  else if(mProjection == std::string("isometric")){
     screen.x = (map.x - map.y) * mTileWidthHalf;
     screen.y = (map.x + map.y) * mTileHeightHalf;
   }

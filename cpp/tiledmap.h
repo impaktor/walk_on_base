@@ -84,7 +84,7 @@ private:
   std::map<std::string, Texture> mTileTextures;
 
   // Either orthogonal or isometric (diamond), staggered
-  std::string mOrientation;
+  std::string mProjection;
 
   // Auto-increments for each placed object
   int mNextObjectId;
