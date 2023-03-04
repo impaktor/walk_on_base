@@ -19,12 +19,12 @@ TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
   mWidth = mRoot["width"].asInt();
   mHeight = mRoot["height"].asInt();
 
-  mTileWidthHalf = mWidth / 2;
-  mTileHeightHalf = mHeight / 2;
-
   // dimension of one tile in pixels
   mTileWidth = mRoot["tilewidth"].asInt();
   mTileHeight = mRoot["tileheight"].asInt();
+
+  mTileWidthHalf = mTileWidth / 2;
+  mTileHeightHalf = mTileHeight / 2;
 
   // (Default to orthographic, if field not found)
   mProjection = mRoot.get("orientation", "orthographic").asString();
@@ -117,12 +117,6 @@ TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
 
 void TiledMap::render(SDL_Renderer *renderer, SDL_Rect &camera){
 
-  // HORRIBLE! Assumes one single tile set
-  // No, assumes tiles in all tilesets have same size, e.g. 32x32
-  Json::Value tileset = mRoot["tilesets"][0];
-  int tileH = tileset["tileheight"].asInt();
-  int tileW = tileset["tilewidth"].asInt();
-
   for(size_t i = 0; i < mRoot["layers"].size(); ++i){
     Json::Value layer = mRoot["layers"][int(i)];
     std::string layername = layer["name"].asString();
@@ -140,9 +134,9 @@ void TiledMap::render(SDL_Renderer *renderer, SDL_Rect &camera){
       if(tileId > 0)
         mTileTextures[mClips[tileId - 1].tileSetName].render(renderer, x - camera.x, y - camera.y, &mClips[tileId - 1].rect);
 
-      x += tileW;
+      x += mTileWidth;
       if((j + 1) % mWidth == 0){
-        y += tileH;
+        y += mTileHeight;
         x = 0;
       }
     }
