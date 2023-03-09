@@ -26,18 +26,11 @@ public:
 
   TiledMap* map;
 
-  int getTileSize(){
-    return mTileSize;
-  }
-
 protected:
   Sprite sprite;
 
-  //Current and previous position of character
+  //Current and previous position of character, in map coordinates
   vec mPos, mOldPos;
-
-  // number of pixels for a tile (assume square, W = H)
-  int mTileSize;
 
   // Store time for last physics update
   Uint32 mLastUpdate;

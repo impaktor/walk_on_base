@@ -35,10 +35,10 @@ public:
   AStar::CoordinateList getPath(vec start, vec end);
 
   // convert from map coordinates, to screen pixel coordinates
-  vec get_screen_pos(vec map);
+  vec get_screen_pos(vec map) const;
 
   // convert from screen pixel coordinates, to map coordinates
-  vec get_map_pos(vec screen);
+  vec get_map_pos(vec screen) const;
 
   vec get_tile_size() const;
 

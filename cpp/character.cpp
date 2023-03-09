@@ -10,12 +10,8 @@ Character::Character(Sprite *sprite, TiledMap *tilemap):
 {
   thisID = ++ID;
 
-  //Initialize the offsets
-  mPos.x = 32;
-  mPos.y = 64;
-
-  // XXX tmp:
-  mTileSize=32;
+  mPos.x = 3;
+  mPos.y = 4;
 
   mOldPos = mPos;
 
@@ -59,7 +55,10 @@ void Character::update(){
 
 void Character::render(SDL_Renderer *renderer, SDL_Rect &camera){
   //Show the object, relative the camera
-  sprite.render(renderer, mPos.x - camera.x, mPos.y - camera.y);
+
+  vec screen_pos = map->get_screen_pos(mPos);
+
+  sprite.render(renderer, screen_pos.x - camera.x, screen_pos.y - camera.y);
 
   std::ostringstream stream;
   stream << "ID: " << thisID << " x,y: " << mPos << " facing: " << sprite.facing;

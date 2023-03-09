@@ -91,7 +91,7 @@ Road map.
 -   [X] show layers, e.g. collision layer, for debugging maps
 -   [ ] Animated tiles? E.g. fire, explosion, smoke, water?
 -   [ ] Animated (character) sprite movement
--   [ ] Support isometric map ([wiki](https://en.wikipedia.org/wiki/Isometric_video_game_graphics)), although technically, it is actually [dimetric](https://www.significant-bits.com/a-laymans-guide-to-projection-in-videogames/)
+-   [X] Support isometric map ([wiki](https://en.wikipedia.org/wiki/Isometric_video_game_graphics)), although technically, it is actually [dimetric](https://www.significant-bits.com/a-laymans-guide-to-projection-in-videogames/)
     -   Find placeholder tile sets: [opengameart.org](https://opengameart.org/) [kenney.nl](https://www.kenney.nl/assets) [assetforge.io](https://assetforge.io/)
     -   Might it be interesting to convert existing 3D models to isometric
         tiles: <http://crocotile3d.com>?

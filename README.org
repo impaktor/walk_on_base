@@ -168,7 +168,7 @@ after performing the depth sort, to reflect the depth changes."
    - [X] show layers, e.g. collision layer, for debugging maps
    - [ ] Animated tiles? E.g. fire, explosion, smoke, water?
    - [ ] Animated (character) sprite movement
-   - [ ] Support isometric map ([[https://en.wikipedia.org/wiki/Isometric_video_game_graphics][wiki]]), although technically, it is actually [[https://www.significant-bits.com/a-laymans-guide-to-projection-in-videogames/][dimetric]]
+   - [X] Support isometric map ([[https://en.wikipedia.org/wiki/Isometric_video_game_graphics][wiki]]), although technically, it is actually [[https://www.significant-bits.com/a-laymans-guide-to-projection-in-videogames/][dimetric]]
      - Find placeholder tile sets: [[https://opengameart.org/][opengameart.org]] [[https://www.kenney.nl/assets][kenney.nl]] [[https://assetforge.io/][assetforge.io]]
      - Might it be interesting to convert existing 3D models to isometric
        tiles: http://crocotile3d.com?

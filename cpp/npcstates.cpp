@@ -77,7 +77,7 @@ Toilet* Toilet::Instance(){
 void Toilet::Enter(NPC* npc){
   std::cout << "enter loo, bladder: " << npc->bladder << "\n";
 
-  vec destination = {1152, 32};
+  vec destination = {36, 1};
   if (not (npc->getPos() == destination)){
     std::cout << "Not on bar stool -> moving there" << "\n";
     npc->SetPath(destination);
@@ -113,8 +113,8 @@ Wanderlust* Wanderlust::Instance(){
 void Wanderlust::Enter(NPC* npc){
   std::cout << "Finding a place to walk to: ";
 
-  int w = npc->map->getWidth() * npc->getTileSize();
-  int h = npc->map->getHeight() * npc->getTileSize();
+  int w = npc->map->getWidth();
+  int h = npc->map->getHeight();
   bool try_again = true;
   vec destination;
 

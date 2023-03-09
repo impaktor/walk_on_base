@@ -126,24 +126,22 @@ void TiledMap::render(SDL_Renderer *renderer, SDL_Rect &camera){
       continue;
     }
 
-    vec map_coordinates = {0, 0};
-    for(size_t j = 0; j < layer["data"].size(); ++j){
-      int tileId = layer["data"][int(j)].asInt();   // "gid coordinate"
+    int j = 0;
+    for(int y = 0; y < mHeight; y++)
+      for(int x = 0; x < mWidth; x++){
 
-      if(tileId > 0){
-        vec screen_pos = get_screen_pos(map_coordinates);
+        int tileId = layer["data"][int(j)].asInt();   // "gid coordinate"
 
-        mTileTextures[mClips[tileId - 1].tileSetName].
-          render(renderer, screen_pos.x - camera.x,
-                 screen_pos.y - camera.y, &mClips[tileId - 1].rect);
+        if(tileId > 0){
+          vec map_coordinates = {x, y};
+          vec screen_pos = get_screen_pos(map_coordinates);
+
+          mTileTextures[mClips[tileId - 1].tileSetName].
+            render(renderer, screen_pos.x - camera.x,
+                   screen_pos.y - camera.y, &mClips[tileId - 1].rect);
+        }
+        j++;
       }
-      map_coordinates.x++;
-
-      if(map_coordinates.x == mWidth){
-        map_coordinates.y++;
-        map_coordinates.x = 0;
-      }
-    }
   }
 
   if(ImGui::Begin("Debug##1")){
@@ -153,12 +151,16 @@ void TiledMap::render(SDL_Renderer *renderer, SDL_Rect &camera){
 }
 
 
+bool TiledMap::isOnMap(vec pos){
+  return !(pos.x < 0 || pos.x > (mWidth-1) ||
+           pos.y < 0 || pos.y > (mHeight-1));
+}
+
+
 bool TiledMap::isCollision(vec pos){
 
   // If we go outside the level, count as "collision"
-  if (pos.x < 0 || pos.x > mTileWidth * mWidth)
-    return true;
-  if (pos.y < 0 || pos.y > mTileHeight * mHeight)
+  if (!isOnMap(pos))
     return true;
 
   // loop through all layers to find collision layer
@@ -172,7 +174,7 @@ bool TiledMap::isCollision(vec pos){
 
     // convert 2D coordinates to 1D (assuming we can only move in
     // steps of full tiles)
-    int j = float(pos.x)/mTileWidth + float(pos.y)/mTileHeight * mWidth;
+    int j = pos.x + float(pos.y) * mWidth;
     int tileId = layer["data"][j].asInt();   // "gid coordinate"
 
     // if there is a tile on this coordinate, it's a collision
@@ -181,13 +183,9 @@ bool TiledMap::isCollision(vec pos){
   return false;
 }
 
-bool TiledMap::isOnMap(vec pos){
-  return !(pos.x < 0 || pos.x > (mWidth-1)*mTileWidth ||
-           pos.y < 0 || pos.y > (mHeight-1)*mTileHeight);
-}
 
-
-vec TiledMap::get_map_pos(vec screen){
+// Note: Does not compesate for camera's offset
+vec TiledMap::get_map_pos(vec screen) const {
   vec map;
   if(mProjection == std::string("orthogonal")){
     map.x = screen.x / mTileWidth;
@@ -201,7 +199,8 @@ vec TiledMap::get_map_pos(vec screen){
 }
 
 
-vec TiledMap::get_screen_pos(vec map){
+// Note: does not compesate for camera's offset
+vec TiledMap::get_screen_pos(vec map) const {
   vec screen;
   if(mProjection == std::string("orthogonal")){
     screen.x = map.x * mTileWidth;

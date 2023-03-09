@@ -14,12 +14,13 @@
 class Dot: public Character{
 public:
   Dot(Sprite *sprite, const SDL_Rect& start_pos, TiledMap *map);
+  Dot(Sprite *sprite, vec start_pos, TiledMap* map);
 
   //Takes key presses and adjusts the dot's velocity
   void handleEvent(SDL_Event &event);
 
   //Centers the camera over the dot
-  void setCamera(SDL_Rect &camera, const TiledMap &level);
+  void setCamera(SDL_Rect &camera);
 
   void update();
 

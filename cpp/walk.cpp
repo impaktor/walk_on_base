@@ -85,7 +85,9 @@ int main()
   Sprite dot_sprite(&dot_texture, 32, 32);
 
   SDL_Rect start_pos = map.get_object("start");
-  Dot dot(&dot_sprite, start_pos, &map);
+  vec start_map_pos = map.get_map_pos(vec{start_pos.x, start_pos.y});
+
+  Dot dot(&dot_sprite, start_map_pos, &map);
 
   Texture npc_texture;
   Uint8 color_key[3] = {255,255,255};
@@ -154,33 +156,37 @@ int main()
     ImGui::NewFrame();
 
     dot.update();
-    dot.setCamera(camera, map);
+    dot.setCamera(camera);
 
     npc.update();
 
     if(show_demo_window)
       ImGui::ShowDemoWindow(&show_demo_window);
-    ImGui::SetNextWindowPos({ 0, 0 });
-    if(show_debug_window)
+    // ImGui::SetNextWindowPos({ 0, 0 });
+    if(ImGui::Begin("Debug##1", &show_debug_window))
     {
-      ImGui::Begin("Debug##1");
-      //show_debug_window = !show_debug_window;
-
       ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
       ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
 
+      ImGui::Separator();
+      ImGui::Text("Mouse");
       int xMouse, yMouse;
       SDL_GetMouseState(&xMouse, &yMouse);
-      std::string s1 = "Mouse x,y: " + std::to_string(xMouse) + " " + std::to_string(yMouse);
-      ImGui::Text(s1.c_str());
+      std::ostringstream s1;
+      s1 << "screen x,y: " << vec{xMouse, yMouse};
+      ImGui::Text(s1.str().c_str());
 
-      vec map_pos = map.get_map_pos(vec(xMouse, yMouse));
-      std::string s2 = "map x,y: " + std::to_string(map_pos.x) + " " + std::to_string(map_pos.y);
-      ImGui::Text(s2.c_str());
-
-      ImGui::End();
+      vec map_pos = map.get_map_pos(vec(xMouse, yMouse) + vec{camera.x, camera.y});
+      std::ostringstream s2;
+      s2 << "map x,y: " << map_pos;
+      ImGui::Text(s2.str().c_str());
+      ImGui::Separator();
     }
+    ImGui::End();
 
+    if (ImGui::IsKeyPressed(ImGuiKey_D)) {
+      show_debug_window = !show_debug_window;
+    }
 
     //RENDER THE SCENE
 

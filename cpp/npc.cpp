@@ -46,10 +46,8 @@ int sign(int x){
 
 
 void NPC::SetPath(vec destination){
-  int step = mTileSize;
-
   if(mPath.empty()){
-    mPath = map->getPath(mPos/step, destination/step);
+    mPath = map->getPath(mPos, destination);
     // debug print out:
     std::cout << "Populated path vector: ";
     for(size_t i=0; i < mPath.size(); i++){
@@ -61,7 +59,6 @@ void NPC::SetPath(vec destination){
 
 
 void NPC::move(){
-  int step = mTileSize;
 
   Uint32 t_current = SDL_GetTicks();
 
@@ -73,7 +70,7 @@ void NPC::move(){
     AStar::Vec2i coordinate = mPath.back();
     mPath.pop_back();
 
-    mPos = coordinate * step;
+    mPos = coordinate;
     std::cout << "moving to: " << mPos << "\n";
 
     mLastUpdate = t_current;
