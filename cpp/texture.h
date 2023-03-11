@@ -35,7 +35,7 @@ public:
 
   //Renders texture at given point, and possibly a subset of the texture
   //(e.g. for rendering a single tile from a tile set)
-  void render(SDL_Renderer *renderer, int x, int y, SDL_Rect* clip = nullptr,
+  void render(SDL_Renderer *renderer, int x, int y, SDL_Rect* src_rect = nullptr,
               double angle = 0.0, SDL_Point* center = nullptr,
               SDL_RendererFlip flip = SDL_FLIP_NONE);
 
