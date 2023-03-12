@@ -10,6 +10,7 @@
 #include "tiledmap.h"
 #include "sprite.h"
 #include "character.h"
+#include "Camera.h"
 
 #include "imgui/imgui.h"
 #include "imgui/backends/imgui_impl_sdl2.h"
@@ -78,6 +79,8 @@ int main()
 
 
   TiledMap map("big.json", renderer);
+  //The camera area
+  Camera camera(SDL_Rect{0, 0, WINDOW_WIDTH, WINDOW_HEIGHT}, &map);
 
   Texture dot_texture;
   // For now: assume sprite sheet has 4 rows, use first column:
@@ -94,10 +97,6 @@ int main()
   npc_texture.loadFromFile("../data/sprites/character/sheet2.png", renderer, color_key);
   Sprite npc_sprite(&npc_texture, 32, 48);
   NPC npc(&npc_sprite, &map);
-
-  // MAIN LOOP
-  //The camera area
-  SDL_Rect camera = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
 
   Uint32 starting_tick;
   bool quit = false;
@@ -156,9 +155,9 @@ int main()
     ImGui::NewFrame();
 
     dot.update();
-    dot.setCamera(camera);
-
     npc.update();
+
+    camera.set(dot.getPos());
 
     if(show_demo_window)
       ImGui::ShowDemoWindow(&show_demo_window);
@@ -176,7 +175,7 @@ int main()
       s1 << "screen x,y: " << vec{xMouse, yMouse};
       ImGui::Text(s1.str().c_str());
 
-      vec map_pos = map.get_map_pos(vec(xMouse, yMouse) + vec{camera.x, camera.y});
+      vec map_pos = map.get_map_pos(vec(xMouse, yMouse) + camera.getpos());
       std::ostringstream s2;
       s2 << "map x,y: " << map_pos;
       ImGui::Text(s2.str().c_str());
@@ -193,9 +192,9 @@ int main()
     //Recommended: First clear the renderer, (using the set render color)
     SDL_RenderClear(renderer);
 
-    map.render(renderer, camera);
-    dot.render(renderer, camera);
-    npc.render(renderer, camera);
+    map.render(renderer, camera.get());
+    dot.render(renderer, camera.get());
+    npc.render(renderer, camera.get());
 
     // at end of frame
     ImGui::Render();

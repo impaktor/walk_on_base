@@ -27,7 +27,7 @@ public:
     return mHeight;
   };
 
-  void render(SDL_Renderer *rend, SDL_Rect &camera);
+  void render(SDL_Renderer *rend, const SDL_Rect &camera);
 
   bool isCollision(vec pos);
   bool isOnMap(vec pos);
@@ -44,11 +44,19 @@ public:
 
   SDL_Rect get_object(const char* key) const;
 
-private:
+protected:
   // Dimensions of entire level/map in tiles
   int mWidth;
   int mHeight;
 
+  // Dimensions of one tile in pixels
+  int mTileWidth;
+  int mTileHeight;
+
+  int mTileWidthHalf;
+  int mTileHeightHalf;
+
+private:
   bool mShowCollisionLayer;
 
   // Return vector of all "wall"-like tiles
@@ -64,13 +72,6 @@ private:
 
   // Each element holds the clip to a (single) tileset
    std::vector<clip> mClips;
-
-  // Dimensions of one tile in pixels
-  int mTileWidth;
-  int mTileHeight;
-
-  int mTileWidthHalf;
-  int mTileHeightHalf;
 
   // Hold objects, form tiled "object layer"
   struct object{
@@ -92,6 +93,9 @@ private:
   // Layer with this name, will not be rendered, but the tile
   // coorinates used for collision detection
   std::string mCollisionLayerName = "collisions";
+
+public:
+  friend class Camera;
 };
 
 #endif

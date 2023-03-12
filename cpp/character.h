@@ -18,7 +18,7 @@ public:
   //Checks collision against tiles & sprite facing direction
   void update();
 
-  void render(SDL_Renderer *renderer, SDL_Rect &camera);
+  void render(SDL_Renderer *renderer, const SDL_Rect &camera);
 
   vec getPos() const {
      return mPos;

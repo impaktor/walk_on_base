@@ -19,9 +19,6 @@ public:
   //Takes key presses and adjusts the dot's velocity
   void handleEvent(SDL_Event &event);
 
-  //Centers the camera over the dot
-  void setCamera(SDL_Rect &camera);
-
   void update();
 
 private:

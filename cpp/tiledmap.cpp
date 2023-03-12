@@ -115,7 +115,7 @@ TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
 }
 
 
-void TiledMap::render(SDL_Renderer *renderer, SDL_Rect &camera){
+void TiledMap::render(SDL_Renderer *renderer, const SDL_Rect &camera){
 
   for(size_t i = 0; i < mRoot["layers"].size(); ++i){
     Json::Value layer = mRoot["layers"][int(i)];

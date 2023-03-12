@@ -53,7 +53,7 @@ void Character::update(){
 }
 
 
-void Character::render(SDL_Renderer *renderer, SDL_Rect &camera){
+void Character::render(SDL_Renderer *renderer, const SDL_Rect &camera){
   //Show the object, relative the camera
 
   vec screen_pos = map->get_screen_pos(mPos);
