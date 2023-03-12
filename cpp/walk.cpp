@@ -93,8 +93,7 @@ int main()
   Dot dot(&dot_sprite, start_map_pos, &map);
 
   Texture npc_texture;
-  Uint8 color_key[3] = {255,255,255};
-  npc_texture.loadFromFile("../data/sprites/character/sheet2.png", renderer, color_key);
+  npc_texture.loadFromFile("../data/sprites/character/sheet2.png", renderer, "#ffffff");
   Sprite npc_sprite(&npc_texture, 32, 48);
   NPC npc(&npc_sprite, &map);
 

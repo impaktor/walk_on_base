@@ -19,7 +19,7 @@ public:
 
   //Loads image at specified path
   bool loadFromFile(const std::string &path, SDL_Renderer *renderer);
-  bool loadFromFile(const std::string &path, SDL_Renderer *renderer, Uint8 *rgb);
+  bool loadFromFile(const std::string &path, SDL_Renderer *renderer, std::string hex);
 
   //Deallocates texture
   void free();

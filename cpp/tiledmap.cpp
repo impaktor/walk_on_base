@@ -75,6 +75,7 @@ TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
     Json::Value tileset = mRoot["tilesets"][int(i)];
     int tileCount = tileset["tilecount"].asInt();
     int firstGid = tileset["firstgid"].asInt();
+    std::string transparency = tileset["transparentcolor"].asString();
 
     int tileH = tileset["tileheight"].asInt();
     int tileW = tileset["tilewidth"].asInt();
@@ -88,7 +89,7 @@ TiledMap::TiledMap(const std::string &name, SDL_Renderer *renderer){
     // and send it as input arg...
     std::string tileFileName = tileset["image"].asString();
     mTileTextures[tileFileName] = Texture();
-    mTileTextures[tileFileName].loadFromFile(tileFileName, renderer);
+    mTileTextures[tileFileName].loadFromFile(tileFileName, renderer, transparency);
 
     clip tmp;
     tmp.rect = SDL_Rect({0,0,0,0});
